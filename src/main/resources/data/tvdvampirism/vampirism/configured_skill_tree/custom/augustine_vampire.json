@@ -1,0 +1,15 @@
+{
+  "skill_tree": "tvdvampirism:custom/augustine_vampire",
+  "node": "tvdvampirism:custom/augustine_root",
+  "children": [
+    {
+      "node": "tvdvampirism:custom/garlic_resistance"
+    },
+    {
+      "node": "tvdvampirism:custom/holy_water_resistance"
+    },
+    {
+      "node": "tvdvampirism:custom/rip_heart"
+    }
+  ]
+}

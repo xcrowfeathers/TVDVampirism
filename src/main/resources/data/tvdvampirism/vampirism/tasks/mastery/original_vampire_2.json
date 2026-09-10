@@ -1,0 +1,65 @@
+{
+  "title": {
+    "text": "original vampire Mastery II"
+  },
+  "requirements": {
+    "requirements": [
+      {
+        "type": "vampirism:entity_type",
+        "entityType": "tvdvampirism:mastery_vampires",
+        "amount": 200,
+        "description": {
+          "text": "vampires"
+        }
+      },
+      {
+        "type": "vampirism:entity_type",
+        "entityType": "tvdvampirism:mastery_werewolves",
+        "amount": 100,
+        "description": {
+          "text": "werewolves"
+        }
+      },
+      {
+        "type": "vampirism:entity_type",
+        "entityType": "tvdvampirism:mastery_hunters",
+        "amount": 100,
+        "description": {
+          "text": "hunters"
+        }
+      },
+      {
+        "type": "vampirism:item",
+        "item": {
+          "id": "vampirism:pure_blood_4",
+          "count": 8
+        },
+        "description": {
+          "translate": "item.vampirism.pure_blood_4"
+        }
+      },
+      {
+        "type": "vampirism:item",
+        "item": {
+          "id": "minecraft:nether_star",
+          "count": 2
+        },
+        "description": {
+          "translate": "item.minecraft.nether_star"
+        }
+      }
+    ]
+  },
+  "rewards": {
+    "type": "tvdvampirism:mastery",
+    "species": "original_vampire",
+    "level": 2
+  },
+  "unlocker": [
+    {
+      "type": "tvdvampirism:mastery",
+      "species": "original_vampire",
+      "level": 2
+    }
+  ]
+}

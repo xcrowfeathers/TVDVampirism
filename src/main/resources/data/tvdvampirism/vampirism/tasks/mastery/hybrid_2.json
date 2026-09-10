@@ -1,0 +1,59 @@
+{
+  "title": {
+    "text": "hybrid Mastery II"
+  },
+  "requirements": {
+    "requirements": [
+      {
+        "type": "vampirism:entity_type",
+        "entityType": "tvdvampirism:mastery_vampires",
+        "amount": 80,
+        "description": {
+          "text": "vampires"
+        }
+      },
+      {
+        "type": "vampirism:item",
+        "item": {
+          "id": "vampirism:pure_blood_4",
+          "count": 4
+        },
+        "description": {
+          "translate": "item.vampirism.pure_blood_4"
+        }
+      },
+      {
+        "type": "vampirism:item",
+        "item": {
+          "id": "werewolves:werewolf_tooth",
+          "count": 8
+        },
+        "description": {
+          "translate": "item.werewolves.werewolf_tooth"
+        }
+      },
+      {
+        "type": "vampirism:item",
+        "item": {
+          "id": "minecraft:netherite_ingot",
+          "count": 2
+        },
+        "description": {
+          "translate": "item.minecraft.netherite_ingot"
+        }
+      }
+    ]
+  },
+  "rewards": {
+    "type": "tvdvampirism:mastery",
+    "species": "hybrid",
+    "level": 2
+  },
+  "unlocker": [
+    {
+      "type": "tvdvampirism:mastery",
+      "species": "hybrid",
+      "level": 2
+    }
+  ]
+}

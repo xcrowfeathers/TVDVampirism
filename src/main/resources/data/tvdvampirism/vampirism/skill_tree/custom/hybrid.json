@@ -1,0 +1,16 @@
+{
+  "faction": {"id": "tvdvampirism:hybrid"},
+  "unlock_predicate": {
+    "type_specific": {
+      "type": "vampirism:player_faction",
+      "faction": {"id": "tvdvampirism:hybrid"}
+    }
+  },
+  "display": {
+    "id": "minecraft:bone",
+    "count": 1
+  },
+  "name": {
+    "translate": "skill_tree.tvdvampirism.hybrid"
+  }
+}

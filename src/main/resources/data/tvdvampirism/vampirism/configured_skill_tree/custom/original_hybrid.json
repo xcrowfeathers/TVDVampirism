@@ -1,0 +1,12 @@
+{
+  "skill_tree": "tvdvampirism:custom/original_hybrid",
+  "node": "tvdvampirism:custom/original_hybrid_root",
+  "children": [
+    {
+      "node": "tvdvampirism:custom/original_hybrid_leap"
+    },
+    {
+      "node": "tvdvampirism:custom/original_hybrid_compulsion"
+    }
+  ]
+}

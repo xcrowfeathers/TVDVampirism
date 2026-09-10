@@ -1,0 +1,16 @@
+{
+  "faction": {"id": "tvdvampirism:augustine_vampire"},
+  "unlock_predicate": {
+    "type_specific": {
+      "type": "vampirism:player_faction",
+      "faction": {"id": "tvdvampirism:augustine_vampire"}
+    }
+  },
+  "display": {
+    "id": "minecraft:nether_star",
+    "count": 1
+  },
+  "name": {
+    "translate": "skill_tree.tvdvampirism.augustine_vampire"
+  }
+}

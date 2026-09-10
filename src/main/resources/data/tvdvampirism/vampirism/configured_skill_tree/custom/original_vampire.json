@@ -1,0 +1,12 @@
+{
+  "skill_tree": "tvdvampirism:custom/original_vampire",
+  "node": "tvdvampirism:custom/original_root",
+  "children": [
+    {
+      "node": "tvdvampirism:custom/original_compulsion"
+    },
+    {
+      "node": "tvdvampirism:custom/inventory_sight"
+    }
+  ]
+}

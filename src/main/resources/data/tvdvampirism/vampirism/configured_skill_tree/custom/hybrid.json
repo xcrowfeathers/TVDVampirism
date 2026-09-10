@@ -1,0 +1,9 @@
+{
+  "skill_tree": "tvdvampirism:custom/hybrid",
+  "node": "tvdvampirism:custom/hybrid_root",
+  "children": [
+    {
+      "node": "tvdvampirism:custom/hybrid_leap"
+    }
+  ]
+}

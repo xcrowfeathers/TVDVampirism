@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "tvdvampirism:item/invincibility_curse_potion"
+  }
+}

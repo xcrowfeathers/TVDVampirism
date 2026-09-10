@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "werewolves:human_werewolf",
+    "werewolves:werewolf_beast",
+    "werewolves:werewolf_survivalist",
+    "werewolves:alpha_werewolf"
+  ]
+}

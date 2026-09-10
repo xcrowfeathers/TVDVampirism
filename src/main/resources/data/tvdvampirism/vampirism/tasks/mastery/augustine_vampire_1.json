@@ -1,0 +1,49 @@
+{
+  "title": {
+    "text": "augustine vampire Mastery I"
+  },
+  "requirements": {
+    "requirements": [
+      {
+        "type": "vampirism:entity_type",
+        "entityType": "tvdvampirism:mastery_vampires",
+        "amount": 25,
+        "description": {
+          "text": "vampires"
+        }
+      },
+      {
+        "type": "vampirism:item",
+        "item": {
+          "id": "vampirism:pure_blood_4",
+          "count": 2
+        },
+        "description": {
+          "translate": "item.vampirism.pure_blood_4"
+        }
+      },
+      {
+        "type": "vampirism:item",
+        "item": {
+          "id": "minecraft:netherite_ingot",
+          "count": 1
+        },
+        "description": {
+          "translate": "item.minecraft.netherite_ingot"
+        }
+      }
+    ]
+  },
+  "rewards": {
+    "type": "tvdvampirism:mastery",
+    "species": "augustine_vampire",
+    "level": 1
+  },
+  "unlocker": [
+    {
+      "type": "tvdvampirism:mastery",
+      "species": "augustine_vampire",
+      "level": 1
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "title": {
+    "text": "original hybrid Mastery V"
+  },
+  "requirements": {
+    "requirements": [
+      {
+        "type": "vampirism:entity_type",
+        "entityType": "tvdvampirism:mastery_vampires",
+        "amount": 2400,
+        "description": {
+          "text": "vampires"
+        }
+      },
+      {
+        "type": "vampirism:entity_type",
+        "entityType": "tvdvampirism:mastery_werewolves",
+        "amount": 1600,
+        "description": {
+          "text": "werewolves"
+        }
+      },
+      {
+        "type": "vampirism:entity_type",
+        "entityType": "tvdvampirism:mastery_hunters",
+        "amount": 1600,
+        "description": {
+          "text": "hunters"
+        }
+      },
+      {
+        "type": "vampirism:item",
+        "item": {
+          "id": "vampirism:pure_blood_4",
+          "count": 20
+        },
+        "description": {
+          "translate": "item.vampirism.pure_blood_4"
+        }
+      },
+      {
+        "type": "vampirism:item",
+        "item": {
+          "id": "werewolves:werewolf_tooth",
+          "count": 20
+        },
+        "description": {
+          "translate": "item.werewolves.werewolf_tooth"
+        }
+      },
+      {
+        "type": "vampirism:item",
+        "item": {
+          "id": "minecraft:nether_star",
+          "count": 5
+        },
+        "description": {
+          "translate": "item.minecraft.nether_star"
+        }
+      }
+    ]
+  },
+  "rewards": {
+    "type": "tvdvampirism:mastery",
+    "species": "original_hybrid",
+    "level": 5
+  },
+  "unlocker": [
+    {
+      "type": "tvdvampirism:mastery",
+      "species": "original_hybrid",
+      "level": 5
+    }
+  ]
+}

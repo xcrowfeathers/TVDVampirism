@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "tvdvampirism:item/white_oak_stake"
+  }
+}
