@@ -12,7 +12,8 @@ First generation vampires that are very (very) hard to kill.
 An immortal hybrid cursed with immortality, thus packed with raw power.
 
 ---
-Every new vampire type has their own special features, mechanics and custom skills. Everything about this mod is documented here, so visit the wiki of this mod before asking them! The chances are really high that you'll find your answer there.
+Every new vampire type has their own special features, mechanics and custom skills. Everything about this mod is documented [here](https://kurodocs.gitbook.io/tvd-vampirism/), so visit the wiki of this mod before asking them! The chances are really high that you'll find your answer there.
+### [Visit the documentation before asking questions!](https://kurodocs.gitbook.io/tvd-vampirism/)
 ## General Changes and Additions
 - Vampires should actually burn in the sun, right? Well, now they do!
 - Daylight rings. You know it, that's the good stuff.
