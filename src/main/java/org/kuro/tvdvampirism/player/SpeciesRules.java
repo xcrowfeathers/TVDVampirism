@@ -9,9 +9,6 @@ public final class SpeciesRules {
     }
 
 
-    // ---------------------------------------------------------
-    // Basic classification
-    // ---------------------------------------------------------
 
     public static boolean isVampiric(Player player) {
 
@@ -57,9 +54,6 @@ public final class SpeciesRules {
     }
 
 
-    // ---------------------------------------------------------
-    // Progression
-    // ---------------------------------------------------------
 
     public static boolean usesPotency(Player player) {
 
@@ -84,9 +78,6 @@ public final class SpeciesRules {
     }
 
 
-    // ---------------------------------------------------------
-    // Sun
-    // ---------------------------------------------------------
 
     public static boolean isSunImmune(Player player) {
 
@@ -112,9 +103,6 @@ public final class SpeciesRules {
     }
 
 
-    // ---------------------------------------------------------
-    // Werewolf bite
-    // ---------------------------------------------------------
 
     public static boolean isWolfBiteImmune(Player player) {
 
@@ -184,10 +172,6 @@ public final class SpeciesRules {
                             .WOLF_BITE_KILLS_AUGUSTINE
                             .get();
 
-            /*
-             * Originals sind loremäßig nicht durch
-             * Werewolf Venom permanent tötbar.
-             */
             case ORIGINAL,
                  HYBRID,
                  ORIGINAL_HYBRID,
@@ -196,9 +180,6 @@ public final class SpeciesRules {
     }
 
 
-    // ---------------------------------------------------------
-    // Hybrid abilities
-    // ---------------------------------------------------------
 
     public static boolean canUseHumanWolfBite(Player player) {
 
@@ -221,9 +202,6 @@ public final class SpeciesRules {
     }
 
 
-    // ---------------------------------------------------------
-    // Immortality
-    // ---------------------------------------------------------
 
     public static boolean hasOriginalImmortality(Player player) {
 
@@ -236,9 +214,6 @@ public final class SpeciesRules {
     }
 
 
-    // ---------------------------------------------------------
-    // Immortality
-    // ---------------------------------------------------------
 
     public static boolean hasFireVulnerability(Player player) {
         var custom = org.kuro.tvdvampirism.compat.SpeciesCompatibility.customPlayer(player);

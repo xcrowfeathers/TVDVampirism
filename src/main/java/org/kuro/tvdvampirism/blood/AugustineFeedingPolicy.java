@@ -21,7 +21,6 @@ public final class AugustineFeedingPolicy {
         return !isVampire(target) || isAugustine(player);
     }
 
-    /** Future control skill belongs here; no skill is granted in this phase */
     public static boolean canControlVampireFeeding(Player player) { return !isAugustine(player); }
 
     public static boolean storeVampireOverflow(CustomFactionPlayer<?> owner, IDrinkBloodContext context) {

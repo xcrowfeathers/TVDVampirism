@@ -11,11 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-/**
- * Central identity mapping for the playable factions that are derived from
- * vampires. A playable faction is a species identity; its world faction is
- * the identity used by village ownership and other world-facing systems.
- */
+/** A playable species can be different from the faction used for villages and other world features */
 public final class VampireFamily {
 
     public static final Set<ResourceLocation> IDS = Set.of(
@@ -81,9 +77,8 @@ public final class VampireFamily {
     }
 
     /**
-     * Supplies only the already-registered totem representation required by
-     * TotemBlockEntity when it changes ownership. All other Hybrid village
-     * data remains the empty default from its technical faction registration.
+     * The Hybrid needs a registered totem for ownership changes; its other village data stays
+     * empty.
      */
     public static IFactionVillage getVillagePresentationData(
             IFaction<?> worldFaction
@@ -93,9 +88,6 @@ public final class VampireFamily {
                 : worldFaction.getVillageData();
     }
 
-    /**
-     * Maps playable species identity to world/village ownership identity.
-     */
     @Nullable
     public static IFaction<?> getWorldFaction(@Nullable IFaction<?> faction) {
         if (isVampireSide(faction)) {
@@ -127,10 +119,7 @@ public final class VampireFamily {
                 : faction;
     }
 
-    /**
-     * Hybrid ownership reuses Vampirism's existing vampire totem block as a
-     * visual marker. Ownership itself remains the distinct Hybrid faction.
-     */
+    /** The Hybrid uses the Vampire totem block, but still owns the village as a Hybrid. */
     public static boolean worldFactionMatchesTotemMarker(
             ResourceLocation markerFactionId,
             Object expectedFactionId
@@ -141,10 +130,7 @@ public final class VampireFamily {
         return markerFactionId.equals(expectedFactionId);
     }
 
-    /**
-     * Treats the normal vampire faction as a logical target filter for every
-     * vampire-derived species. Used for Hunter selectors such as Awareness.
-     */
+    /** Hunter filters for normal Vampires should also find the other vampire species. */
     public static boolean matchesVampiricTargetFilter(
             @Nullable IFaction<?> requested,
             @Nullable IFaction<?> actual

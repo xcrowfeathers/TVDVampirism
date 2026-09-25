@@ -117,17 +117,11 @@ public abstract class CustomFactionPlayer<T extends IFactionPlayer<T>>
 
     public abstract @NotNull SpeciesSkillProfile getSkillProfile();
 
-    /**
-     * Every current custom faction player is vampire-based and therefore exposes
-     * the Vampire skill bridge. This is a species capability, not an initialization check.
-     */
+    /** All current custom species have Vampire skills and this does not depend on initialization */
     public final boolean hasVampireSkillBridge() {
         return true;
     }
 
-    /**
-     * Only Hybrid profiles expose the Werewolf skill bridge.
-     */
     public final boolean hasWerewolfSkillBridge() {
         return switch (getSkillProfile()) {
             case HYBRID, ORIGINAL_HYBRID -> true;
@@ -343,8 +337,8 @@ public abstract class CustomFactionPlayer<T extends IFactionPlayer<T>>
             return;
         }
 
-        // Vampirism's own VampirePlayer update returns before blood, action and
-        // feeding processing while DBNO. Mirror that boundary for custom factions.
+        // Stock VampirePlayer skips blood, actions and feeding during DBNO; custom factions must do
+        // the same.
         if (org.kuro.tvdvampirism.compat.SpeciesCompatibility.rawVampire(player).isDBNO()) {
             if (!isRemote() && feedingTargetId >= 0) {
                 stopFeeding(true);

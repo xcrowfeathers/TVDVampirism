@@ -6,7 +6,6 @@ import org.kuro.tvdvampirism.faction.player.CustomFactionPlayer;
 
 import java.util.ArrayList;
 
-/** Maps the existing faction identity to an independently configurable profile */
 public final class SpeciesAttributes {
     private SpeciesAttributes() {
     }
@@ -20,7 +19,7 @@ public final class SpeciesAttributes {
             default -> throw new IllegalArgumentException("Not a custom species: " + player.getFaction().getID());
         };
 
-        // Cross-field constraints cannot be expressed by defineInRange. Resolve in tier order.
+        // These values depend on each other, so resolve them in tier order.
         int damageTier1 = config.attackDamageTier1Level.get();
         int damageTier2 = Math.max(damageTier1, config.attackDamageTier2Level.get());
         var bloodTiers = new ArrayList<SpeciesAttributeProfile.BloodTier>();

@@ -17,7 +17,6 @@ import org.kuro.tvdvampirism.compat.SpeciesCompatibility;
 import org.kuro.tvdvampirism.config.ServerConfig;
 import org.kuro.tvdvampirism.player.SpeciesRules;
 
-/** Only input state; all target and combat decisions are revalidated by existing server handlers */
 @EventBusSubscriber(modid = "tvdvampirism", value = Dist.CLIENT)
 public final class HybridBiteInput {
     private static KeyMapping key;

@@ -16,10 +16,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/**
- * Adapts Vampirism's stock DBNO lifecycle for custom vampire species while
- * preserving the special immortality lifecycle of Original species.
- */
+/** Custom vampires use stock DBNO, while Originals keep their own recovery rules. */
 @Mixin(value = VampirePlayer.class, remap = false)
 public abstract class OriginalDbnoMixin
         implements org.kuro.tvdvampirism.player.DbnoAccess {

@@ -10,7 +10,6 @@ import net.minecraft.world.level.Level;
 import org.kuro.tvdvampirism.player.DaggerManager;
 import org.kuro.tvdvampirism.player.SpeciesManager;
 
-/** Uses vanilla held-item duration/animation; only a transient target identity is addon state. */
 public final class ElderDaggerItem extends Item {
     private final boolean enchantedGlint;
 

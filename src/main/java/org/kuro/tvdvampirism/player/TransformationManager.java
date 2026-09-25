@@ -5,7 +5,6 @@ import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
-import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.TickTask;
@@ -24,7 +23,6 @@ import org.kuro.tvdvampirism.compat.SpeciesCompatibility;
 import org.kuro.tvdvampirism.config.ServerConfig;
 import org.kuro.tvdvampirism.registry.TransformationContent;
 
-/** Effects own all countdowns; faction and DBNO ownership stay in existing systems. */
 @EventBusSubscriber(modid = Tvdvampirism.MODID)
 public final class TransformationManager {
     public enum Reagent { AUGUSTINE_SYRINGE, ORIGINAL_HYBRID_BLOOD, INVINCIBILITY_CURSE }
@@ -81,7 +79,6 @@ public final class TransformationManager {
         return added;
     }
 
-    /** Called by the existing death boundary, before stock death/DBNO processing. */
     public static boolean onLethalDamage(ServerPlayer player, DamageSource source) {
         for (Type type : Type.values()) {
             if (type != Type.AUGUSTINE && player.hasEffect(type.effect()) && eligible(player, type))
@@ -95,7 +92,7 @@ public final class TransformationManager {
         if (!(event.getEntity() instanceof ServerPlayer player)
                 || event.getEffectInstance() == null
                 || !event.getEffectInstance().getEffect().equals(Type.AUGUSTINE.effect())) return;
-        // Never mutate the effect map while LivingEntity is iterating it.
+        // LivingEntity is iterating the effects here; change them later.
         player.server.tell(new TickTask(player.server.getTickCount(), () -> {
             if (!player.isRemoved() && player.isAlive() && !player.hasEffect(Type.AUGUSTINE.effect()))
                 complete(player, Type.AUGUSTINE, player.damageSources().generic());
@@ -105,23 +102,21 @@ public final class TransformationManager {
     private static boolean complete(ServerPlayer player, Type type, DamageSource source) {
         if (!eligible(player, type)) return false;
         boolean wasWerewolf = FactionPlayerHandler.get(player).getCurrentFaction() == WReference.WEREWOLF_FACTION;
-        // Existing API preserves the current level, clamps to the target cap and
-        // gives factionless humans its existing minimum/start level of one.
-        // Its exit callbacks reset old skills, actions, attributes and lord data.
+        var previousWerewolf = wasWerewolf ? SpeciesCompatibility.rawWerewolf(player) : null;
+        // The faction API carries over the level and resets old skills, actions, attributes and
+        // lord data.
         if (!SpeciesTransitionManager.forceSpecies(player, type.target)) return false;
         if (wasWerewolf) {
-            var werewolf = WerewolfPlayer.get(player);
-            werewolf.setForm(null, WerewolfForm.NONE);
-            werewolf.getLevelHandler().reset();
-            werewolf.sync(true);
+            previousWerewolf.setForm(null, WerewolfForm.NONE);
+            previousWerewolf.getLevelHandler().reset();
+            previousWerewolf.sync(true);
         }
         for (Type effect : Type.values()) player.removeEffect(effect.effect());
 
         if (SpeciesRules.hasOriginalImmortality(player))
             return OriginalImmortalityManager.enter(player, source);
 
-        // Normal stock DBNO, without onDeadlyHit's killer-tag/neonatal admission
-        // gates: transformation completion itself is not a new damage event.
+        // Use stock DBNO directly. This transformation is not another lethal hit.
         var custom = SpeciesCompatibility.customPlayer(player);
         custom.stopFeeding(true);
         custom.getActionHandler().deactivateAllActions();

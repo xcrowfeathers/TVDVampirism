@@ -8,7 +8,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import org.kuro.tvdvampirism.skill.CustomSkills;
 
-/** Snapshot only: no slot/container ever references the target's live inventory. */
+/** This menu copies the target inventory; its slots never touch the real items. */
 public final class InventorySightMenu extends ChestMenu {
     private final ServerPlayer target;
     public static void open(ServerPlayer viewer,ServerPlayer target) {
@@ -25,7 +25,7 @@ public final class InventorySightMenu extends ChestMenu {
     }
     private InventorySightMenu(int id,net.minecraft.world.entity.player.Inventory inventory,ServerPlayer target,SimpleContainer snapshot) {
         super(CustomSkills.INVENTORY_MENU.get(),id,inventory,snapshot,6);this.target=target;
-        // Identical immutable slots on both sides: even client-side click prediction cannot move items.
+        // Both sides use read-only slots so client click prediction cannot move the target's items.
         for(int i=0;i<slots.size();i++) {
             var old=slots.get(i);
             var readOnly=new Slot(old.container,old.getContainerSlot(),old.x,old.y) {

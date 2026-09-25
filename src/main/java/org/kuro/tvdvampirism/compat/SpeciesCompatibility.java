@@ -19,13 +19,7 @@ import org.kuro.tvdvampirism.faction.SpeciesFactions;
 import org.kuro.tvdvampirism.player.Species;
 
 
-/**
- * Central compatibility boundary between TVD custom species and stock
- * Vampirism code that semantically expects a vampire player.
- *
- * This class never changes the player's real faction. CustomFactionPlayer
- * remains authoritative; the Vampire bridge is only an adapter for stock APIs.
- */
+/** This shit adapts custom species for Vampirism without changing their real faction or player data */
 public final class SpeciesCompatibility {
 
     private SpeciesCompatibility() {
@@ -36,8 +30,7 @@ public final class SpeciesCompatibility {
             return null;
         }
 
-        // Do not resolve the stock Vampire capability while deciding whether to
-        // adapt that same capability (normal vampires would recurse).
+        // Looking up the Vampire capability here would recurse for normal vampires.
         if (!org.kuro.tvdvampirism.faction.VampireFamily.isTechnicalSpecies(
                 FactionPlayerHandler.get(player).getCurrentFaction())) {
             return null;
@@ -68,11 +61,6 @@ public final class SpeciesCompatibility {
         return entity instanceof Player player && isCustomWerewolfLike(player);
     }
 
-    /**
-     * Returns the stock-compatible VampirePlayer facade for a player.
-     * For custom species this is the existing bridge backed by the canonical
-     * CustomFactionPlayer state; normal vampires keep their stock attachment.
-     */
     public static VampirePlayer vampire(Player player) {
         CustomFactionPlayer<?> custom = customPlayer(player);
         return custom != null && custom.hasVampireSkillBridge()
@@ -80,12 +68,11 @@ public final class SpeciesCompatibility {
                 : rawVampire(player);
     }
 
-    /** Persistence and bridge delegation must bypass the public facade lookup. */
+    /** Use the real attachment here; the public lookup would return this adapter again. */
     public static VampirePlayer rawVampire(Player player) {
         return player.getData(de.teamlapen.vampirism.core.ModAttachments.VAMPIRE_PLAYER);
     }
 
-    /** Stock-compatible Werewolf facade backed by the custom player's canonical state. */
     public static WerewolfPlayer werewolf(Player player) {
         CustomFactionPlayer<?> custom = customPlayer(player);
         return custom != null && custom.hasWerewolfSkillBridge()
@@ -93,15 +80,11 @@ public final class SpeciesCompatibility {
                 : rawWerewolf(player);
     }
 
-    /** Persistence and bridge delegation must bypass the public facade lookup. */
+    /** Use the real attachment here; the public lookup would return this adapter again. */
     public static WerewolfPlayer rawWerewolf(Player player) {
         return player.getData(de.teamlapen.werewolves.core.ModAttachments.WEREWOLF_PLAYER);
     }
 
-    /**
-     * Extends stock refinement ownership only for TVD custom factions. Normal
-     * factions retain Vampirism's exact-faction validation.
-     */
     public static boolean acceptsRefinementFaction(
             IPlayableFaction<?> playerFaction,
             Object refinementFaction
@@ -124,7 +107,7 @@ public final class SpeciesCompatibility {
         return false;
     }
 
-    /** Reuse ambient garlic without running the stock VampirePlayer tick twice. */
+    /** Keep garlic effects without running the stock VampirePlayer tick twice. */
     public static void tickVampireEnvironment(CustomFactionPlayer<?> custom) {
         var player = custom.asEntity();
         if (!player.isAlive()) return;
@@ -136,10 +119,7 @@ public final class SpeciesCompatibility {
         }
     }
 
-    /**
-     * Handles Vampirism's generic IFactionLevelItem gate for inherited
-     * Vampire items. Returns null when stock logic should remain authoritative.
-     */
+    /** Check inherited Vampire items here. Return null to let Vampirism make the decision. */
     public static @Nullable Boolean canUseInheritedFactionItem(
             ItemStack stack,
             IFactionLevelItem<?> item,

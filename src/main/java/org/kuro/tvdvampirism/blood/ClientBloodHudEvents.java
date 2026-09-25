@@ -111,7 +111,6 @@ public final class ClientBloodHudEvents {
 
         HitResult hit = minecraft.hitResult;
 
-        // Let the stock Werewolves crosshair own the ready tap-bite indicator.
         if (org.kuro.tvdvampirism.client.action.SpeciesClientActionAccess.hasReadyHybridBiteTarget()) {
             renderFeedProgress(event.getGuiGraphics(), customPlayer, minecraft);
             return;

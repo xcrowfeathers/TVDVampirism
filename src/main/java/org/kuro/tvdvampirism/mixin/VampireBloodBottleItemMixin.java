@@ -13,7 +13,6 @@ import org.kuro.tvdvampirism.blood.BloodManager;
 import org.kuro.tvdvampirism.config.ServerConfig;
 import org.spongepowered.asm.mixin.Mixin;
 
-/** This stock item has no use methods; only Augustine gains a drinking action. */
 @Mixin(VampireBloodBottleItem.class)
 public abstract class VampireBloodBottleItemMixin extends Item {
     protected VampireBloodBottleItemMixin(Properties properties) { super(properties); }

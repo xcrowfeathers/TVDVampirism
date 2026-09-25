@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-/** Routes the stock Werewolf kill refinement through a Hybrid's canonical state. */
 @Mixin(value = WerewolfPlayer.class, remap = false)
 public abstract class WerewolfRefinementEffectMixin {
 

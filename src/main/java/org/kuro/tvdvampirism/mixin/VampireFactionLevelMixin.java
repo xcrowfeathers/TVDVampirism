@@ -29,8 +29,7 @@ public abstract class VampireFactionLevelMixin {
                 ? currentFaction : faction;
     }
 
-    // Leaving the real vampire faction must reset its real attachment, not the
-    // new custom species' facade. Current-faction callbacks remain unchanged.
+    // On exit, reset the real Vampire attachment, not the new species' adapter.
     @Redirect(method = "notifyFaction", require = 2, at = @At(value = "INVOKE",
             target = "Lde/teamlapen/vampirism/api/entity/factions/IPlayableFaction;getPlayerCapability(Lnet/minecraft/world/entity/player/Player;)Ljava/util/Optional;"))
     private Optional<?> tvd$lifecycleCapability(IPlayableFaction<?> faction, Player player) {

@@ -64,7 +64,7 @@ public final class FactionRelations {
             }
         }
 
-        // Vampirism's default is that distinct, non-neutral factions are hostile.
+        // Vampirism treats separate non-neutral factions as enemies by default.
         return Relationship.HOSTILE;
     }
 

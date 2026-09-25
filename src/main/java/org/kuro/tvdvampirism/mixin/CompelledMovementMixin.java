@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Prevents compelled entities from bypassing zero movement speed by jumping. */
 @Mixin(LivingEntity.class)
 public abstract class CompelledMovementMixin {
     @Inject(method = "jumpFromGround", at = @At("HEAD"), cancellable = true)

@@ -9,6 +9,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.kuro.tvdvampirism.player.TransformationManager;
 import org.kuro.tvdvampirism.player.TransformationManager.Reagent;
+import org.kuro.tvdvampirism.bite.WerewolfBiteManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
 
@@ -21,8 +22,8 @@ public final class TransformationItem extends Item {
     }
 
     private boolean canConsume(Player player) {
-        // Blood remains drinkable for both curing and existing transformation uses.
-        return reagent == Reagent.ORIGINAL_HYBRID_BLOOD || TransformationManager.canStart(player, reagent);
+        return TransformationManager.canStart(player, reagent)
+                || reagent == Reagent.ORIGINAL_HYBRID_BLOOD && WerewolfBiteManager.canCureWithBlood(player);
     }
 
     @Override
@@ -55,10 +56,9 @@ public final class TransformationItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         if (!(entity instanceof ServerPlayer player) || !canConsume(player)) return stack;
-        if (reagent == Reagent.ORIGINAL_HYBRID_BLOOD)
-            org.kuro.tvdvampirism.bite.WerewolfBiteManager.cureWithBlood(player);
+        boolean cured = reagent == Reagent.ORIGINAL_HYBRID_BLOOD && WerewolfBiteManager.cureWithBlood(player);
         boolean started = TransformationManager.start(player, reagent);
-        if (!started && reagent != Reagent.ORIGINAL_HYBRID_BLOOD) return stack;
+        if (!started && !cured) return stack;
         if (reagent == Reagent.AUGUSTINE_SYRINGE) {
             stack.consume(1, player);
             return stack;

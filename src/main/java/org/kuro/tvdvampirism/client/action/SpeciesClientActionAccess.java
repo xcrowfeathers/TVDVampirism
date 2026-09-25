@@ -33,10 +33,6 @@ public final class SpeciesClientActionAccess {
     private SpeciesClientActionAccess() {
     }
 
-    /**
-     * Resolve the custom faction player exactly the same way Vampirism's
-     * action wheel does: through the faction's player capability.
-     */
     public static @Nullable CustomFactionPlayer<?> currentCustomPlayer(
             IPlayableFaction<?> faction
     ) {
@@ -58,10 +54,6 @@ public final class SpeciesClientActionAccess {
                 : null;
     }
 
-    /**
-     * Builds the normal action catalog for a custom species from the stock
-     * factions represented by that species.
-     */
     public static List<IAction<?>> inheritedDefaultActionOrder(
             CustomFactionPlayer<?> player,
             Collection<IAction<?>> existing
@@ -92,9 +84,6 @@ public final class SpeciesClientActionAccess {
         return List.copyOf(result);
     }
 
-    /**
-     * Catalog used by Vampirism's Edit Actions screen.
-     */
     public static List<IAction<?>> selectableActionCatalog(
             CustomFactionPlayer<?> player
     ) {
@@ -106,11 +95,6 @@ public final class SpeciesClientActionAccess {
                 .toList();
     }
 
-    /**
-     * Stock vampire/werewolf actions require their stock faction-player
-     * interface. Custom species therefore evaluate canUse against the matching
-     * bridge instead of the custom player object itself.
-     */
     public static IAction.PERM canUse(
             IAction<?> action,
             IFactionPlayer<?> player

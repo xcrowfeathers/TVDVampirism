@@ -8,7 +8,6 @@ import org.kuro.tvdvampirism.player.SpeciesManager;
 
 import java.util.function.Predicate;
 
-/** Optional, central access boundary for Daylight Ring equipment checks. */
 public final class DaylightRingAccess {
     private static final boolean CURIOS_LOADED = ModList.get().isLoaded("curios");
     private static Predicate<Player> equippedLookup = player -> false;
@@ -16,7 +15,7 @@ public final class DaylightRingAccess {
     private DaylightRingAccess() {
     }
 
-    /** Called only from the guarded Curios branch in the mod bootstrap. */
+    /** Call this only after checking that Curios is loaded. */
     public static void initializeCurios() {
         equippedLookup = CuriosDaylightRingAccess::isEquipped;
     }

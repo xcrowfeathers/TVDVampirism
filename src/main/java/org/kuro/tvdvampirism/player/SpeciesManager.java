@@ -12,9 +12,6 @@ public final class SpeciesManager {
     }
 
 
-    // ---------------------------------------------------------
-    // Data
-    // ---------------------------------------------------------
 
     public static PlayerData getData(Player player) {
         return player.getData(
@@ -23,9 +20,6 @@ public final class SpeciesManager {
     }
 
 
-    // ---------------------------------------------------------
-    // Species resolution
-    // ---------------------------------------------------------
 
     public static Species getSpecies(Player player) {
         return SpeciesFactions.getSpecies(
@@ -36,9 +30,6 @@ public final class SpeciesManager {
     }
 
 
-    // ---------------------------------------------------------
-    // Vampirism
-    // ---------------------------------------------------------
 
     public static boolean isVampirismVampire(Player player) {
 

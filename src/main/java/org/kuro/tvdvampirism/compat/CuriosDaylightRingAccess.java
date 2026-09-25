@@ -4,10 +4,7 @@ import net.minecraft.world.entity.player.Player;
 import org.kuro.tvdvampirism.registry.DaylightRingContent;
 import top.theillusivec4.curios.api.CuriosApi;
 
-/**
- * Curios-only implementation. No always-loaded class exposes a Curios type in
- * its fields or method signatures.
- */
+/** Keep Curios types in this class so the mod can load without Curios. */
 final class CuriosDaylightRingAccess {
     private CuriosDaylightRingAccess() {
     }

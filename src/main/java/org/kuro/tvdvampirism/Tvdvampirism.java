@@ -29,6 +29,7 @@ public final class Tvdvampirism {
         org.kuro.tvdvampirism.registry.DaylightRingContent.register(modBus);
         org.kuro.tvdvampirism.registry.WhiteOakContent.register(modBus);
         org.kuro.tvdvampirism.registry.DaggerContent.register(modBus);
+        org.kuro.tvdvampirism.registry.DodgeSounds.register(modBus);
         org.kuro.tvdvampirism.loot.WorldLootModifier.register(modBus);
         org.kuro.tvdvampirism.mastery.MasteryContent.register(modBus);
         org.kuro.tvdvampirism.skill.CustomSkills.register(modBus);

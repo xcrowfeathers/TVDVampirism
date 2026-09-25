@@ -8,7 +8,6 @@ import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import org.kuro.tvdvampirism.Tvdvampirism;
 import org.kuro.tvdvampirism.config.ServerConfig;
 
-/** Uses Vampirism's own action toggle instead of maintaining a parallel bat-form restriction. */
 @EventBusSubscriber(modid = Tvdvampirism.MODID)
 public final class BatFormConfigBridge {
     private static Boolean originalBatEnabled;

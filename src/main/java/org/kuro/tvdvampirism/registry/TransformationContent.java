@@ -13,7 +13,6 @@ import org.kuro.tvdvampirism.item.TransformationItem;
 import org.kuro.tvdvampirism.player.TransformationManager.Reagent;
 import org.kuro.tvdvampirism.player.TransformationManager.Type;
 
-/** Minimal command-accessible content; no recipes, loot or custom rendering. */
 public final class TransformationContent {
     private static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Tvdvampirism.MODID);
     private static final DeferredRegister<MobEffect> EFFECTS =

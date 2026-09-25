@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "GBG",
+    "BDB",
+    "GBG"
+  ],
+  "key": {
+    "G": { "item": "minecraft:gold_nugget" },
+    "B": { "item": "minecraft:dragon_breath" },
+    "D": { "item": "tvdvampirism:elder_dagger" }
+  },
+  "result": {
+    "count": 1,
+    "id": "tvdvampirism:cursed_elder_dagger"
+  }
+}

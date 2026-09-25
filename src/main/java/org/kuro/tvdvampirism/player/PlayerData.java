@@ -14,30 +14,22 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         embeddedDagger = dagger.copy();
         if (embeddedDagger.isEmpty()) daggerRemovalUnlockTick = 0;
     }
-    // Short-lived server guard against the insertion click immediately removing the dagger again.
+    // Ignore the click that inserted the dagger so it cannot remove it immediately.
     private long daggerRemovalUnlockTick;
     public void delayDaggerRemovalUntil(long gameTick) { daggerRemovalUnlockTick = Math.max(0, gameTick); }
     public boolean canRemoveDagger(long gameTick) { return gameTick >= daggerRemovalUnlockTick; }
-    // Transient target lock; charge duration is owned by vanilla item use, never saved.
+    // The target lock is temporary; vanilla item use tracks the charge time.
     private java.util.UUID daggerChargeTarget;
     public java.util.UUID getDaggerChargeTarget() { return daggerChargeTarget; }
     public void setDaggerChargeTarget(java.util.UUID target) { daggerChargeTarget = target; }
 
     private Species legacySpeciesMigration;
 
-    /*
-     * Custom progression.
-     *
-     * Ranks werden später NICHT direkt gespeichert.
-     * Wir speichern XP und berechnen daraus Potency/Mastery.
-     */
+    // Save XP and derive Potency and Mastery ranks instead of saving them.
     private int potencyXp = 0;
     private int masteryXp = 0;
 
 
-    /*
-     * Werewolf venom.
-     */
     private boolean wolfBiteActive = false;
     private int wolfBiteTicks = 0;
     private boolean wolfBiteTerminalTriggered = false;
@@ -50,7 +42,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         wolfBiteTerminalTriggered = true;
     }
 
-    // -1: awake, 0: ready to wake, >0: remaining online DBNO ticks.
+    // -1 means awake, 0 means ready to wake, and positive values count down DBNO.
     private int originalDbnoTicks = -1;
     private boolean vampirismCureActive;
     private boolean vampirismCureTerminalPending;
@@ -80,9 +72,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
     }
 
 
-    // ---------------------------------------------------------
-    // Legacy species migration
-    // ---------------------------------------------------------
 
     public Optional<Species> getLegacySpeciesMigration() {
         return Optional.ofNullable(legacySpeciesMigration);
@@ -93,9 +82,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
     }
 
 
-    // ---------------------------------------------------------
-    // Potency
-    // ---------------------------------------------------------
 
     public int getPotencyXp() {
         return potencyXp;
@@ -110,9 +96,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
     }
 
 
-    // ---------------------------------------------------------
-    // Mastery
-    // ---------------------------------------------------------
 
     public int getMasteryXp() {
         return masteryXp;
@@ -127,9 +110,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
     }
 
 
-    // ---------------------------------------------------------
-    // Wolf Bite
-    // ---------------------------------------------------------
 
     public boolean hasWolfBite() {
         return wolfBiteActive;
@@ -170,9 +150,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
     }
 
 
-    // ---------------------------------------------------------
-    // Serialization
-    // ---------------------------------------------------------
 
     @Override
     public CompoundTag serializeNBT(HolderLookup.Provider provider) {
@@ -240,9 +217,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         );
 
 
-        /*
-         * New format.
-         */
         if (tag.contains("MasteryXp")) {
 
             masteryXp = Math.max(
@@ -252,9 +226,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
         } else {
 
-            /*
-             * Compatibility mit unserem bisherigen Testformat.
-             */
             masteryXp = 0;
         }
 

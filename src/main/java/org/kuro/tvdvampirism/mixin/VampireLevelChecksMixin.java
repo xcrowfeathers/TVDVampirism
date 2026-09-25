@@ -10,8 +10,7 @@ import org.kuro.tvdvampirism.compat.VampireLevelAccess;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 
-/** Only consumers read the effective level. The stock tick/cache still see zero,
- * preventing duplicate stock progression, blood consumption and attributes. */
+/** Show the custom level to callers, but keep the stock tick from repeating blood use and leveling. */
 @Mixin(value = {AltarInspirationBlockEntity.class, AltarInfusionBlockEntity.class,
         GarlicDiffuserBlockEntity.class, SunscreenBeaconBlockEntity.class,
         CoffinBlock.class, CrucifixItem.class, DamageHandler.class,

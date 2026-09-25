@@ -18,7 +18,7 @@ public abstract class OriginalDbnoScreenMixin {
         var player = Minecraft.getInstance().player;
         if (player != null && SpeciesRules.hasOriginalImmortality(player)) dieButton.active = false;
         if (player != null && org.kuro.tvdvampirism.player.DaggerManager.isDaggered(player)) {
-            // Keep the disabled texture static instead of rendering the live DBNO refill overlay.
+            // Use a still texture here; the normal DBNO refill animation is misleading.
             resurrectButton.updateState(1F);
         }
     }

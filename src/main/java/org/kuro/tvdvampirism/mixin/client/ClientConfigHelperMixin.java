@@ -14,9 +14,6 @@ import java.util.List;
 @Mixin(value = ClientConfigHelper.class, remap = false)
 public abstract class ClientConfigHelperMixin {
 
-    /**
-     * Prevent newly created custom-faction action orders from being empty.
-     */
     @Inject(
             method = "getDefaultActionOrder(Lde/teamlapen/vampirism/api/entity/factions/IPlayableFaction;)Ljava/util/List;",
             at = @At("RETURN"),
@@ -41,11 +38,7 @@ public abstract class ClientConfigHelperMixin {
         );
     }
 
-    /**
-     * Older runs may already have cached/saved an empty action order for a
-     * custom faction. In that case getDefaultActionOrder is never called.
-     * Repair that stale empty entry here and save the repaired order.
-     */
+    /** Older saves can hold an empty action order, so repair it here. */
     @Inject(
             method = "getActionOrder(Lde/teamlapen/vampirism/api/entity/factions/IPlayableFaction;)Ljava/util/List;",
             at = @At("RETURN"),

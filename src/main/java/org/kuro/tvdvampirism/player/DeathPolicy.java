@@ -3,7 +3,6 @@ package org.kuro.tvdvampirism.player;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 
-/** The only authorization point for a permanent player kill. */
 public final class DeathPolicy {
     private DeathPolicy() {}
     private record WhiteOakKill(Player target, DamageSource source) {}
@@ -80,7 +79,6 @@ public final class DeathPolicy {
         return kill != null && kill.target() == target && kill.source() == source;
     }
 
-    /** Explicit kill mechanics retain their existing behavior while a cure is active. */
     public static boolean isExplicitTerminal(Player target, DamageSource source) {
         var backlash = DAGGER_BACKLASH.get();
         return isTerminalBite(source) || isAuthorizedWhiteOak(target, source)
@@ -103,7 +101,7 @@ public final class DeathPolicy {
         }
     }
 
-    /** Snapshot eligibility once; death listeners may clear DBNO before later listeners run. */
+    /** Check eligibility first; later death listeners may clear DBNO. */
     public static boolean tryWhiteOakKill(net.minecraft.server.level.ServerPlayer attacker,
             net.minecraft.server.level.ServerPlayer target, net.minecraft.world.item.ItemStack stake) {
         if (!stake.is(org.kuro.tvdvampirism.registry.WhiteOakContent.WHITE_OAK_STAKE.get())

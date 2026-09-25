@@ -5,6 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import org.kuro.tvdvampirism.registry.ModAttachments;
 import org.kuro.tvdvampirism.skill.SpeciesSkillProfile;
 
+// klaus mikaelson I AM IMMORTAL GRRRRRR
 public final class OriginalVampirePlayer
         extends CustomFactionPlayer<IOriginalVampirePlayer>
         implements IOriginalVampirePlayer {

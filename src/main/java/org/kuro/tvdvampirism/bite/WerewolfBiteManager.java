@@ -31,7 +31,6 @@ public final class WerewolfBiteManager {
                 : VampireFamily.isVampireDerived(target);
     }
 
-    /** Server entry point for stock and Hybrid bites. Damage is independent of infection */
     public static boolean tryApplyBite(LivingEntity attacker, LivingEntity target) {
         if (target.level().isClientSide || attacker.level() != target.level() || !attacker.isAlive()
                 || !target.isAlive() || target == attacker || !validVictim(target)
@@ -50,7 +49,6 @@ public final class WerewolfBiteManager {
                 : ServerConfig.WOLF_BITE_MOB_DURATION_MINUTES.get()) * 1200;
     }
 
-    /** Preserve finite requested durations; gameplay bites already supply the server default. */
     public static MobEffectInstance normalizeEffect(LivingEntity target, MobEffectInstance effect) {
         if (target.level().isClientSide || !effect.getEffect().equals(BiteContent.WEREWOLF_BITE)) return effect;
         int remaining = effect.isInfiniteDuration() ? configuredDuration(target) : Math.max(1, effect.getDuration());
@@ -75,9 +73,8 @@ public final class WerewolfBiteManager {
         }
     }
 
-    /** Called only by the effect. Snapshot its clock; do not run a second timer or send packets. */
     public static void tickInfection(LivingEntity target) {
-        // Mobs only need the vanilla countdown and the existing terminal expiry event.
+        // For mobs, the normal effect timer and expiry event are enough.
         if (!(target instanceof Player)) return;
         var effect = target.getEffect(BiteContent.WEREWOLF_BITE);
         if (effect == null) return;
@@ -99,16 +96,13 @@ public final class WerewolfBiteManager {
         boolean enteredStage = elapsed == 1
                 || previousProgress < ServerConfig.WOLF_BITE_WEAKNESS_TWO_START.get() && stage == 1
                 || previousProgress < ServerConfig.WOLF_BITE_SEVERE_START.get() && stage == 2;
-        // Short command-driven tests must expose each stage even if shorter than a pulse interval.
         if (elapsed <= 0 || elapsed % interval != 0 && !(total < configuredDuration(target) && enteredStage)) return;
-        // Defer only actual symptom pulses, so the active-effect iterator is never mutated.
         var server = target.getServer();
         server.tell(new TickTask(server.getTickCount(), () -> {
             if (!target.isAlive() || target.isRemoved() || target.getEffect(BiteContent.WEREWOLF_BITE) != effect) return;
             int duration = Math.min(interval / 2, ServerConfig.WOLF_BITE_SYMPTOM_SECONDS.get() * 20 * (stage == 2 ? 2 : 1));
             target.addEffect(new MobEffectInstance(MobEffects.CONFUSION, duration, 0, false, false));
             if (stage > 0) {
-                // Vanilla Weakness I subtracts four damage. Never disable low-damage melee.
                 var attack = target.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE);
                 if (attack != null && attack.getValue() >= 5)
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration, 0, false, false));
@@ -129,8 +123,12 @@ public final class WerewolfBiteManager {
         target.die(source);
     }
 
+    public static boolean canCureWithBlood(Player player) {
+        return player.isAlive() && validVictim(player) && player.hasEffect(BiteContent.WEREWOLF_BITE);
+    }
+
     public static boolean cureWithBlood(ServerPlayer player) {
-        if (!validVictim(player) || !player.hasEffect(BiteContent.WEREWOLF_BITE)) return false;
+        if (!canCureWithBlood(player)) return false;
         CURING.set(player);
         try {
             player.removeEffect(BiteContent.WEREWOLF_BITE);
@@ -152,7 +150,7 @@ public final class WerewolfBiteManager {
         return target.addEffect(effect, source);
     }
 
-    /** Used only by vanilla's permission-checked /effect clear, not general removal. */
+    /** Only /effect clear uses this path; ordinary effect removal does not. */
     public static boolean clearByCommand(LivingEntity target, net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect) {
         var previous = CURING.get();
         CURING.set(target);
@@ -187,7 +185,7 @@ public final class WerewolfBiteManager {
             if (data.isWolfBiteTerminalTriggered()) return;
             data.finishWolfBite();
         }
-        // Allow natural expiry to remove the HUD effect. No zero-second or infinite residue.
+        // Let the effect expire normally so the HUD clears with it.
         var server = target.getServer();
         server.tell(new TickTask(server.getTickCount(), () -> {
             if (target instanceof Player player && !SpeciesManager.getData(player).isWolfBiteTerminalTriggered()) return;
@@ -207,7 +205,7 @@ public final class WerewolfBiteManager {
         if (!(player instanceof ServerPlayer)) return;
         var data = SpeciesManager.getData(player);
         var existing = player.getEffect(BiteContent.WEREWOLF_BITE);
-        // Migrate the old infinite/zero-second wrappers once, not on every tick.
+        // Fix old effects with a zero or infinite duration once.
         if (data.isWolfBiteTerminalTriggered()) {
             CURING.set(player);
             try { player.removeEffect(BiteContent.WEREWOLF_BITE); }

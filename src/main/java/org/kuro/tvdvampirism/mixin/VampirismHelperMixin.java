@@ -12,10 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/**
- * Extends only Vampirism's semantic "is vampire" and inherited faction-item
- * gates. It does not change the player's registered faction.
- */
+/** Treat custom species as Vampires for checks without changing their registered faction. */
 @Mixin(value = Helper.class, remap = false)
 public abstract class VampirismHelperMixin {
 

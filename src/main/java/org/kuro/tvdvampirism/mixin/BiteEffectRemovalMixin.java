@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/** This low-level removal method does not fire NeoForge's removal event. */
+/** NeoForge does not fire an effect removal event for this method. */
 @Mixin(LivingEntity.class)
 public abstract class BiteEffectRemovalMixin {
     @ModifyVariable(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z",

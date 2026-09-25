@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-/** Keeps the stock three-slot refinement menu while accepting compatible families. */
 @Mixin(value = VampirismMenu.class, remap = false)
 public abstract class VampirismMenuMixin {
 

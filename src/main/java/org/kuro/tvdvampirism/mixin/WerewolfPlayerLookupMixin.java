@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
-/** Exposes hybrid species to stock Werewolves consumers without changing faction identity. */
 @Mixin(value = WerewolfPlayer.class, remap = false)
 public abstract class WerewolfPlayerLookupMixin {
     @Inject(method = "get", at = @At("HEAD"), cancellable = true)

@@ -140,10 +140,7 @@ public final class VampireSkillPlayerBridge extends VampirePlayer {
         actual().switchVision();
     }
 
-    /*
-     * DBNO must always live on Vampirism's real VampirePlayer attachment.
-     * The bridge only exposes our custom species to Vampirism.
-     */
+    // Keep DBNO on the real Vampirism attachment; this bridge only exposes the custom species.
 
     @Override
     public boolean isDBNO() {

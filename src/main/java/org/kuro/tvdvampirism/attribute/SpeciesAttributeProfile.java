@@ -2,7 +2,6 @@ package org.kuro.tvdvampirism.attribute;
 
 import java.util.List;
 
-/** Resolved server balance values; no live config objects or mutable collections. */
 public record SpeciesAttributeProfile(
         double healthMaxMod,
         double speedMaxMod,

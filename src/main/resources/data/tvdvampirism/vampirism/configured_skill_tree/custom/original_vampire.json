@@ -7,6 +7,9 @@
     },
     {
       "node": "tvdvampirism:custom/inventory_sight"
+    },
+    {
+      "node": "tvdvampirism:custom/original_dodge"
     }
   ]
 }

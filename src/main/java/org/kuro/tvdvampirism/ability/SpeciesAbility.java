@@ -18,16 +18,23 @@ import org.kuro.tvdvampirism.skill.CustomSkills.Kind;
 import org.kuro.tvdvampirism.skill.SpeciesSkillProfile;
 import java.util.Optional;
 
-/** Stock action cooldowns/networking with one implementation per ability kind. */
 public final class SpeciesAbility<T extends IFactionPlayer<T>> extends DefaultAction<T> {
     public final Definition definition;
     public SpeciesAbility(Definition definition) { this.definition=definition; }
     @Override public Optional<IPlayableFaction<?>> getFaction() { return Optional.empty(); }
-    @Override public boolean isEnabled() { return definition.kind!=Kind.COMPULSION || ServerConfig.COMPULSION_ENABLED.get(); }
+    @Override public boolean isEnabled() {
+        return switch (definition.kind) {
+            case COMPULSION -> ServerConfig.COMPULSION_ENABLED.get();
+            case DODGE -> ServerConfig.DODGE_ENABLED.get();
+            default -> true;
+        };
+    }
     @Override public int getCooldown(T owner) {
         return switch(definition.kind) {
             case LEAP -> (definition.species==SpeciesSkillProfile.HYBRID ? ServerConfig.HYBRID_LEAP_COOLDOWN : ServerConfig.ORIGINAL_HYBRID_LEAP_COOLDOWN).get()*20;
             case COMPULSION -> ServerConfig.COMPULSION_COOLDOWN.get()*20;
+            case DODGE -> (ServerConfig.DODGE_DURATION_SECONDS.get()
+                    + ServerConfig.DODGE_COOLDOWN_SECONDS.get())*20;
             case RIP_HEART -> ServerConfig.RIP_HEART_COOLDOWN.get()*20;
             default -> 0;
         };
@@ -35,10 +42,15 @@ public final class SpeciesAbility<T extends IFactionPlayer<T>> extends DefaultAc
     @Override public boolean canBeUsedBy(T owner) {
         var player=owner.asEntity();
         return isEnabled() && CustomSkills.has(player,definition) && player.isAlive() && !player.isSpectator()
-                && !SpeciesCompatibility.rawVampire(player).isDBNO() && !player.hasEffect(CustomSkills.LEAP);
+                && !SpeciesCompatibility.rawVampire(player).isDBNO() && !player.hasEffect(CustomSkills.LEAP)
+                && (definition.kind!=Kind.DODGE || !player.hasEffect(CustomSkills.DODGE));
     }
     @Override protected boolean activate(T owner, ActivationContext context) {
         if (!(owner.asEntity() instanceof ServerPlayer player) || !canBeUsedBy(owner)) return false;
+        if (definition.kind==Kind.DODGE) {
+            return player.addEffect(new MobEffectInstance(CustomSkills.DODGE,
+                    ServerConfig.DODGE_DURATION_SECONDS.get()*20,0,false,false,true));
+        }
         double range=switch(definition.kind) { case LEAP -> ServerConfig.LEAP_RANGE.get(); case COMPULSION -> 6; case INVENTORY -> 4; default -> 3; };
         var target=AbilityTargets.lookedAt(player,range);
         if (target==null || player.distanceToSqr(target)>range*range) return fail(player);

@@ -22,7 +22,6 @@ import org.kuro.tvdvampirism.compat.SpeciesCompatibility;
 import org.kuro.tvdvampirism.config.ServerConfig;
 import org.kuro.tvdvampirism.registry.VampirismCureContent;
 
-/** Server-authoritative lifecycle for the dedicated cure effect. */
 @EventBusSubscriber(modid = Tvdvampirism.MODID)
 public final class VampirismCureManager {
     private VampirismCureManager() {}
@@ -53,14 +52,12 @@ public final class VampirismCureManager {
                         VampirismCureContent.VAMPIRISM_CURE_EFFECT)
                 || !SpeciesRules.isVampiric(player)) return;
 
-        // The effect itself owns the lifecycle, regardless of whether it came
-        // from the item or an operator's /effect command.
+        // The effect controls the timer whether it came from an item or /effect.
         PlayerData data = SpeciesManager.getData(player);
         data.setVampirismCureActive(true);
         data.setVampirismCureTerminalPending(false);
     }
 
-    /** Called before Vampirism decides whether a lethal hit enters DBNO. */
     public static boolean onLethalDamage(ServerPlayer player, DamageSource source) {
         PlayerData data = SpeciesManager.getData(player);
         if (!data.isVampirismCureActive()) return false;
@@ -68,9 +65,8 @@ public final class VampirismCureManager {
         if (DeathPolicy.isAuthorizedVampirismCure(player, source)) return false;
         cancel(player);
 
-        // White Oak, terminal venom, heart-rip and dagger backlash keep their
-        // dedicated permanent-death behavior. Ordinary lethal damage fails the
-        // cure and enters the species' existing DBNO lifecycle.
+        // White Oak, terminal venom, heart rip and dagger backlash still kill permanently. Other
+        // lethal hits fail the cure and enter DBNO.
         if (DeathPolicy.isExplicitTerminal(player, source)) return false;
         return enterDbno(player, source);
     }
@@ -98,7 +94,7 @@ public final class VampirismCureManager {
         data.setVampirismCureActive(false);
         data.setVampirismCureTerminalPending(true);
 
-        // LivingEntity is iterating its active-effect map during this event.
+        // LivingEntity is iterating the effects here; change them later.
         scheduleTerminalDeath(player);
     }
 
@@ -189,8 +185,7 @@ public final class VampirismCureManager {
             return;
         }
 
-        // Hybrids keep compatibility data in the stock Werewolves attachment;
-        // clear that dormant state after the real faction transition as well.
+        // After the faction changes, clear the old Werewolves attachment data too.
         var werewolf = SpeciesCompatibility.rawWerewolf(player);
         werewolf.setForm(null, WerewolfForm.NONE);
         werewolf.getLevelHandler().reset();

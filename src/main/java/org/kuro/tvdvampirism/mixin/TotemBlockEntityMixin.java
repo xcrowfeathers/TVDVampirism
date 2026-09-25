@@ -31,7 +31,7 @@ public abstract class TotemBlockEntityMixin {
     @org.spongepowered.asm.mixin.injection.ModifyArg(method="serverTickSecondNonCapture",at=@At(value="INVOKE",
             target="Lnet/minecraft/world/level/Level;getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;"),index=2)
     private java.util.function.Predicate<? super Entity> tvd$matchingQuestGiver(java.util.function.Predicate<? super Entity> predicate) {
-        // A quest giver left over from previous village ownership must not block the Hybrid NPC.
+        // An old quest giver must not block the Hybrid NPC.
         return VampireFamily.hasOwnershipOnlyVillage(controllingFaction)
                 ? entity -> entity instanceof org.kuro.tvdvampirism.mastery.HybridQuestGiver : predicate;
     }

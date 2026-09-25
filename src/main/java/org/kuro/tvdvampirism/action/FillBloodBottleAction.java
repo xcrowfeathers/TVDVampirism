@@ -31,7 +31,7 @@ public final class FillBloodBottleAction extends DefaultAction<IOriginalHybridPl
     }
     @Override protected boolean activate(IOriginalHybridPlayer owner, ActivationContext context) {
         if (!(owner.asEntity() instanceof ServerPlayer player) || !canBeUsedBy(owner)) return false;
-        // Preconditions precede all costs. Direct health cost cannot trigger combat or DBNO.
+        // Check everything before charging health; this cost must not start combat or DBNO.
         if (!owner.useBlood(8, false)) return false;
         player.setHealth(player.getHealth() - 2);
         player.getInventory().getItem(bottleSlot(owner)).shrink(1);

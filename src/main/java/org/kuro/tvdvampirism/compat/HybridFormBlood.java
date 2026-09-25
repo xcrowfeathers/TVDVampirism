@@ -6,7 +6,7 @@ import org.kuro.tvdvampirism.player.Species;
 import org.kuro.tvdvampirism.player.SpeciesManager;
 import org.kuro.tvdvampirism.player.SpeciesRules;
 
-/** Called only by the stock active form action; returning true uses its normal deactivation. */
+/** The stock form action calls this; returning true turns the form off normally. */
 public final class HybridFormBlood {
     private HybridFormBlood() {}
 

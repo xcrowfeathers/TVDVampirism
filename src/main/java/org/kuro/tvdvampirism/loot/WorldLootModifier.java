@@ -24,7 +24,6 @@ import org.kuro.tvdvampirism.registry.DaylightRingContent;
 import java.util.List;
 import java.util.function.Supplier;
 
-/** Additive, config-backed rolls for existing TVD items. */
 public final class WorldLootModifier extends LootModifier {
     private static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> SERIALIZERS =
             DeferredRegister.create(NeoForgeRegistries.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Tvdvampirism.MODID);
@@ -34,7 +33,6 @@ public final class WorldLootModifier extends LootModifier {
 
     private static final ResourceLocation WOODLAND_MANSION = table("minecraft", "chests/woodland_mansion");
     private static final ResourceLocation BURIED_TREASURE = table("minecraft", "chests/buried_treasure");
-    private static final ResourceLocation ANCIENT_CITY = table("minecraft", "chests/ancient_city");
     private static final ResourceLocation OMINOUS_VAULT = table("minecraft", "chests/trial_chambers/reward_ominous");
     private static final ResourceLocation HUNTER_OUTPOST_TENT = table("vampirism", "chests/hunter_outpost_tent");
 
@@ -43,8 +41,6 @@ public final class WorldLootModifier extends LootModifier {
                     ServerConfig.WHITE_OAK_STAKE_LOOT_ENABLED, ServerConfig.WHITE_OAK_STAKE_LOOT_CHANCE),
             new Entry(BURIED_TREASURE, DaggerContent.ELDER_DAGGER,
                     ServerConfig.ELDER_DAGGER_LOOT_ENABLED, ServerConfig.ELDER_DAGGER_LOOT_CHANCE),
-            new Entry(ANCIENT_CITY, DaggerContent.CURSED_ELDER_DAGGER,
-                    ServerConfig.CURSED_ELDER_DAGGER_LOOT_ENABLED, ServerConfig.CURSED_ELDER_DAGGER_LOOT_CHANCE),
             new Entry(OMINOUS_VAULT, VampirismCureContent.VAMPIRISM_CURE,
                     ServerConfig.VAMPIRISM_CURE_LOOT_ENABLED, ServerConfig.VAMPIRISM_CURE_LOOT_CHANCE),
             new Entry(HUNTER_OUTPOST_TENT, TransformationContent.AUGUSTINE_SYRINGE,

@@ -4,6 +4,7 @@ import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import org.kuro.tvdvampirism.faction.SpeciesFactions;
 
+// elijah mikaelson!
 public interface IOriginalVampirePlayer
         extends IFactionPlayer<IOriginalVampirePlayer>, ICustomVampirePlayer {
 

@@ -10,10 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-/**
- * Boundary between logical vampire classification and Vampirism's concrete
- * normal-vampire player implementation.
- */
 public final class VampireCompat {
 
     private VampireCompat() {
@@ -33,11 +29,7 @@ public final class VampireCompat {
         return isVampireDerived(entity);
     }
 
-    /**
-     * Normal VampirePlayer/BloodStats behavior remains opt-in. Custom species
-     * will receive their own mechanics later instead of accidentally running
-     * the complete normal-vampire tick/feeding implementation.
-     */
+    /** Do not run the full stock VampirePlayer tick for custom species */
     public static boolean shouldUseNormalVampireMechanics(
             @Nullable IFaction<?> faction
     ) {

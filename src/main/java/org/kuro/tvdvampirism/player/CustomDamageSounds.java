@@ -7,7 +7,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import org.kuro.tvdvampirism.compat.LivingSoundAccess;
 
-/** Restores vanilla audio for addon damage paths which bypass vanilla sound dispatch. */
 public final class CustomDamageSounds {
     private CustomDamageSounds() {}
 
@@ -22,15 +21,12 @@ public final class CustomDamageSounds {
             entity.playSound(sound, access.tvd$getSoundVolume(), entity.getVoicePitch());
     }
 
-    /** Complete vanilla's sound dispatch when DBNO replaces an actual or synthetic death. */
     public static void down(net.minecraft.server.level.ServerPlayer player) {
         if (player.isDeadOrDying()) {
-            // The lethal hurt already sounded for observers; cancellation only
-            // prevents the victim's normal death entity-event packet.
+            // Observers already heard the lethal hit; only the victim misses the death sound.
             player.connection.send(new ClientboundEntityEventPacket(player, (byte) 3));
         } else {
-            // Direct incapacitation (for example, an elder dagger) has no
-            // preceding hurt/death sound dispatch at all.
+            // Direct DBNO, such as an elder dagger hit, has no earlier hurt or death sound.
             play(player, ((LivingSoundAccess) player).tvd$getDeathSound());
         }
     }

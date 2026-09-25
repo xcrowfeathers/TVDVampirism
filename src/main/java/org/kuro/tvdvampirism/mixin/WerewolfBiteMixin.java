@@ -20,7 +20,7 @@ public abstract class WerewolfBiteMixin {
             at = @At("STORE"), ordinal = 0)
     private double tvd$humanHybridBiteDamage(double damage) {
         var wolf = (WerewolfPlayer) (Object) this;
-        // Human Hybrids have no stock form modifier; use the stock Beast bite bonus once.
+        // Human Hybrids have no form bonus, so apply the Beast bite bonus once.
         return SpeciesRules.canUseHumanWolfBite(wolf.asEntity()) && wolf.getForm().isHumanLike()
                 ? damage + de.teamlapen.werewolves.config.WerewolvesConfig.BALANCE.SKILLS.beast_form_bite_damage.get()
                 : damage;
@@ -52,7 +52,7 @@ public abstract class WerewolfBiteMixin {
         return custom != null && custom.hasWerewolfSkillBridge() ? custom.getLevel() : wolf.getLevel();
     }
 
-    /** Keep the stock cooldown authoritative on the real attachment on both logical sides. */
+    /** Use the cooldown on the real Werewolf attachment on both sides. */
     @Redirect(method = {"canBite", "bite(Lnet/minecraft/world/entity/LivingEntity;)Z", "lambda$bite$5"},
             at = @At(value = "FIELD",
                     target = "Lde/teamlapen/werewolves/entities/player/werewolf/WerewolfPlayer;specialAttributes:Lde/teamlapen/werewolves/entities/player/werewolf/WerewolfPlayerSpecialAttributes;"))

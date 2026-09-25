@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-/** Displays custom Mastery in the stock faction-level HUD position. */
 @Mixin(value = FactionLevelOverlay.class, remap = false)
 public abstract class MasteryLevelOverlayMixin {
     @Redirect(

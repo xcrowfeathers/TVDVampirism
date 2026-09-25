@@ -42,7 +42,6 @@ public final class DaggerManager {
         }
     }
 
-    /** Vanilla ray selection is limited to the melee segment, including blocking terrain. */
     public static ServerPlayer aimedTarget(ServerPlayer attacker) {
         double reach = attacker.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ENTITY_INTERACTION_RANGE);
         var start = attacker.getEyePosition();
@@ -70,8 +69,7 @@ public final class DaggerManager {
         if (!enabled(held) || !attacker.isAlive() || attacker.isSpectator()
                 || SpeciesCompatibility.rawVampire(attacker).isDBNO()) return false;
         var target = aimedTarget(attacker);
-        // Let vanilla synchronize the use pose even without a valid lock. Only a
-        // valid target can be committed when the use duration completes.
+        // Vanilla can show the use pose without a target. Commit one only after a valid charge.
         if (target == null || !validCharge(attacker, target, held)) return true;
         if (VampireFamily.isVampireDerived(attacker) && !SpeciesRules.hasOriginalImmortality(attacker)) {
             DeathPolicy.killDaggerAttacker(attacker);

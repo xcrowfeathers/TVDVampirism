@@ -19,7 +19,7 @@ import org.kuro.tvdvampirism.faction.VampireFamily;
 import org.kuro.tvdvampirism.faction.player.CustomFactionPlayer;
 import org.kuro.tvdvampirism.skill.SpeciesSkillProfile;
 
-/** Owns only the species level layer. Other mods and future progression layers keep their modifiers */
+/** Only replace species level modifiers. Leave modifiers from other systems alone. */
 public final class SpeciesAttributeManager {
     public static final ResourceLocation MAX_HEALTH = id("species_max_health");
     public static final ResourceLocation MOVEMENT_SPEED = id("species_movement_speed");
@@ -37,7 +37,7 @@ public final class SpeciesAttributeManager {
         refresh(custom, custom.getLevel());
     }
 
-    /** Use the supplied level during faction deserialization, before its attachment is fully installed. */
+    /** During faction loading, use this level before the attachment is ready. */
     public static void refresh(CustomFactionPlayer<?> custom, int level) {
         if (custom.isRemote()) {
             return;
@@ -47,8 +47,7 @@ public final class SpeciesAttributeManager {
             var handler = FactionPlayerHandler.get(player);
             boolean replacingCustomProfile = handler.getCurrentLevel() > 0
                     && VampireFamily.isTechnicalSpecies(handler.getCurrentFaction());
-            // The new custom faction applies immediately after this callback. Clamp its final maximum,
-            // not the temporary human maximum between two profiles.
+            // The new faction applies next, so wait to clamp health to its maximum.
             clear(player, !replacingCustomProfile);
             return;
         }
@@ -64,8 +63,8 @@ public final class SpeciesAttributeManager {
 
         AttributeInstance exhaustion = player.getAttribute(ModAttributes.BLOOD_EXHAUSTION);
         if (exhaustion != null) {
-            // Vampirism leaves base 0 when leaving its faction, while fresh players start at 1.
-            // ADD_VALUE participates in the base used by ADD_MULTIPLIED_BASE in Minecraft 1.21.1.
+            // Vampirism can leave the base at zero; Minecraft includes ADD_VALUE when calculating
+            // base multipliers.
             replace(player, ModAttributes.BLOOD_EXHAUSTION, BLOOD_EXHAUSTION_BASE,
                     profile.bloodExhaustionFactor() - exhaustion.getBaseValue(), Operation.ADD_VALUE);
             replace(player, ModAttributes.BLOOD_EXHAUSTION, BLOOD_EXHAUSTION,
@@ -110,7 +109,7 @@ public final class SpeciesAttributeManager {
         }
     }
 
-    /** Called after equipment changes have actually been applied by LivingEntity. */
+    /** Run this after LivingEntity has applied equipment changes. */
     public static void updateEquipment(CustomFactionPlayer<?> custom) {
         if (custom.isRemote() || custom.getLevel() <= 0) {
             return;
@@ -121,7 +120,7 @@ public final class SpeciesAttributeManager {
         updateNaturalArmor(custom.asEntity(), profile, custom.getLevel(), custom.getMaxLevel());
     }
 
-    /** The periodic path only updates armor and toughness, never the complete profile. */
+    /** The periodic update touches only armor and toughness. */
     public static void updateNaturalArmor(CustomFactionPlayer<?> custom) {
         if (!custom.isRemote() && custom.getLevel() > 0) {
             updateNaturalArmor(custom.asEntity(), SpeciesAttributes.getProfile(custom),
@@ -188,7 +187,6 @@ public final class SpeciesAttributeManager {
                 && equipmentValue(player, Attributes.ARMOR) > profile.armorPenaltyThreshold();
     }
 
-    /** Same ADD_VALUE/armor-ID filter as Vampirism, using the public modifier collection. */
     public static double equipmentValue(Player player, Holder<Attribute> attribute) {
         AttributeInstance instance = player.getAttribute(attribute);
         if (instance == null) {
@@ -209,7 +207,7 @@ public final class SpeciesAttributeManager {
                 profile.attackSpeedMaxMod() * scale * penalty, Operation.ADD_MULTIPLIED_BASE);
     }
 
-    /** Supplies the stock attribute base so its Swift Resurrection modifier remains authoritative. */
+    /** Keep the stock base so Swift Resurrection can still modify it. */
     private static void setDbnoBase(CustomFactionPlayer<?> custom) {
         Player player = custom.asEntity();
         AttributeInstance instance = player.getAttribute(ModAttributes.DBNO_DURATION);

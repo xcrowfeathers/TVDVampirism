@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.Collection;
 
-/** Keep Vampirism's canonical skill storage, validation and sync; adapt only its integration boundaries. */
+/** Keep stock skill storage and syncing; only adapt the species checks. */
 @Mixin(value = SkillHandler.class, remap = false)
 public abstract class SkillHandlerMixin {
     @Shadow @Final private IFactionPlayer<?> player;
@@ -49,7 +49,7 @@ public abstract class SkillHandlerMixin {
 
     @Inject(method = "enableSkill", at = @At("HEAD"), cancellable = true)
     private void tvd$restrictEnable(ISkill<?> skill, boolean loading, CallbackInfo ci) {
-        // Also omits excluded purchases from old saves, returning their point cost automatically.
+        // Drop excluded skills from old saves and refund their points.
         if (player instanceof CustomFactionPlayer<?> custom && !SpeciesSkillRules.allows(custom, skill)) ci.cancel();
     }
 

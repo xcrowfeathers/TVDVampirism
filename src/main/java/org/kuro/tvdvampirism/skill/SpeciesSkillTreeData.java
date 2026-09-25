@@ -11,11 +11,11 @@ import net.minecraft.core.Holder;
 import org.kuro.tvdvampirism.faction.player.CustomFactionPlayer;
 import java.util.*;
 
-/** Per-owner projection. Extends the common stock data class because SkillsScreen casts to it. */
+/** SkillsScreen casts to this stock data class, so keep extending it. */
 public final class SpeciesSkillTreeData extends ClientSkillTreeData {
     private final CustomFactionPlayer<?> owner;
     private final Map<Holder<ISkillTree>, Projection> cache = new HashMap<>();
-    private record Projection(SkillTreeConfiguration source, boolean masteryUnlocked, SkillTreeConfiguration filtered) {}
+    private record Projection(SkillTreeConfiguration source, boolean masteryUnlocked, boolean dodgeEnabled, SkillTreeConfiguration filtered) {}
 
     public SpeciesSkillTreeData(CustomFactionPlayer<?> owner) {
         super(owner.asEntity().registryAccess());
@@ -29,8 +29,11 @@ public final class SpeciesSkillTreeData extends ClientSkillTreeData {
         if (source == null) return null;
         var previous = cache.get(tree);
         boolean masteryUnlocked = owner.getLevel()>0 && owner.getMasteryLevel()>0;
-        if (previous == null || previous.source() != source || previous.masteryUnlocked()!=masteryUnlocked) {
-            previous = new Projection(source, masteryUnlocked, new SkillTreeConfiguration(tree, filterNode(source.root()), filterChildren(source.children())));
+        boolean dodgeEnabled = org.kuro.tvdvampirism.config.ServerConfig.DODGE_ENABLED.get();
+        if (previous == null || previous.source() != source || previous.masteryUnlocked()!=masteryUnlocked
+                || previous.dodgeEnabled()!=dodgeEnabled) {
+            previous = new Projection(source, masteryUnlocked, dodgeEnabled,
+                    new SkillTreeConfiguration(tree, filterNode(source.root()), filterChildren(source.children())));
             cache.put(tree, previous);
         }
         return previous.filtered();

@@ -10,7 +10,6 @@ import org.kuro.tvdvampirism.skill.CustomSkills;
 import org.kuro.tvdvampirism.skill.SpeciesSkillProfile;
 import java.util.*;
 
-/** Only the temporary effect processes a leap. State is server-only and never resumes after logout. */
 @net.neoforged.fml.common.EventBusSubscriber(modid="tvdvampirism")
 public final class LeapEffect extends MobEffect {
     private record Flight(UUID target, CustomSkills.Definition skill, Vec3 start, net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level> dimension, int ticks) {}
@@ -20,7 +19,6 @@ public final class LeapEffect extends MobEffect {
         if (player.isPassenger() || player.isFallFlying() || !player.onGround()) return false;
         if (!player.addEffect(new MobEffectInstance(CustomSkills.LEAP,40,0,false,false,false))) return false;
         Vec3 delta=target.position().subtract(player.position());
-        // Scale the launch speed with distance
         Vec3 horizontal=new Vec3(delta.x,0,delta.z);
         double horizontalDistance=horizontal.length();
         double speed=Math.clamp(1.05+horizontalDistance*0.09,1.05,2.35);

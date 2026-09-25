@@ -25,7 +25,6 @@ public final class WhiteOakStake {
         if (finish(attacker, target, attacker.getMainHandItem())) event.setCanceled(true);
     }
 
-    /** Shared by a validated melee attack and the operator's self-test. */
     public static boolean finish(ServerPlayer attacker, ServerPlayer target, ItemStack stake) {
         if (!DeathPolicy.tryWhiteOakKill(attacker, target, stake)) return false;
         target.setRemainingFireTicks(100);

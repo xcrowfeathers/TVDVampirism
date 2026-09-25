@@ -7,7 +7,6 @@ import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 import org.kuro.tvdvampirism.faction.player.CustomFactionPlayer;
 
-/** Read-only routing for stock client visuals, including remote rendered players. */
 public final class SpeciesClientVisualAccess {
     private SpeciesClientVisualAccess() {}
 

@@ -9,10 +9,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/**
- * Vampire barons use a private level predicate instead of Vampirism's shared
- * faction predicate for proactive player targeting.
- */
 @Mixin(VampireBaronEntity.class)
 public abstract class VampireBaronEntityMixin {
 

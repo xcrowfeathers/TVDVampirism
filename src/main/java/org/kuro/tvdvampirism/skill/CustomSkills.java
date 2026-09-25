@@ -16,13 +16,13 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.*;
 import org.kuro.tvdvampirism.ability.SpeciesAbility;
 import org.kuro.tvdvampirism.ability.LeapEffect;
+import org.kuro.tvdvampirism.config.ServerConfig;
 import org.kuro.tvdvampirism.compat.SpeciesCompatibility;
 import org.kuro.tvdvampirism.faction.player.CustomFactionPlayer;
 import java.util.*;
 
-/** One catalog owns species membership, point cost and the shared implementation selected by each skill. */
 public final class CustomSkills {
-    public enum Kind { ROOT, GARLIC, HOLY_WATER, RIP_HEART, LEAP, COMPULSION, INVENTORY }
+    public enum Kind { ROOT, GARLIC, HOLY_WATER, RIP_HEART, LEAP, COMPULSION, INVENTORY, DODGE }
     public enum Definition {
         AUGUSTINE_ROOT("augustine_root", SpeciesSkillProfile.AUGUSTINE, Kind.ROOT),
         GARLIC("garlic_resistance", SpeciesSkillProfile.AUGUSTINE, Kind.GARLIC),
@@ -32,10 +32,12 @@ public final class CustomSkills {
         HYBRID_LEAP("hybrid_leap", SpeciesSkillProfile.HYBRID, Kind.LEAP),
         ORIGINAL_ROOT("original_root", SpeciesSkillProfile.ORIGINAL_VAMPIRE, Kind.ROOT),
         ORIGINAL_COMPULSION("original_compulsion", SpeciesSkillProfile.ORIGINAL_VAMPIRE, Kind.COMPULSION),
+        ORIGINAL_DODGE("original_dodge", SpeciesSkillProfile.ORIGINAL_VAMPIRE, Kind.DODGE),
         INVENTORY_SIGHT("inventory_sight", SpeciesSkillProfile.ORIGINAL_VAMPIRE, Kind.INVENTORY),
         ORIGINAL_HYBRID_ROOT("original_hybrid_root", SpeciesSkillProfile.ORIGINAL_HYBRID, Kind.ROOT),
         ORIGINAL_HYBRID_LEAP("original_hybrid_leap", SpeciesSkillProfile.ORIGINAL_HYBRID, Kind.LEAP),
-        ORIGINAL_HYBRID_COMPULSION("original_hybrid_compulsion", SpeciesSkillProfile.ORIGINAL_HYBRID, Kind.COMPULSION);
+        ORIGINAL_HYBRID_COMPULSION("original_hybrid_compulsion", SpeciesSkillProfile.ORIGINAL_HYBRID, Kind.COMPULSION),
+        ORIGINAL_HYBRID_DODGE("original_hybrid_dodge", SpeciesSkillProfile.ORIGINAL_HYBRID, Kind.DODGE);
 
         public final String id;
         public final SpeciesSkillProfile species;
@@ -52,6 +54,8 @@ public final class CustomSkills {
     public static final DeferredHolder<net.minecraft.world.inventory.MenuType<?>,net.minecraft.world.inventory.MenuType<org.kuro.tvdvampirism.ability.InventorySightMenu>> INVENTORY_MENU = MENUS.register("inventory_sight", () ->
             new net.minecraft.world.inventory.MenuType<>(org.kuro.tvdvampirism.ability.InventorySightMenu::new,net.minecraft.world.flag.FeatureFlags.DEFAULT_FLAGS));
     public static final DeferredHolder<MobEffect, LeapEffect> LEAP = EFFECTS.register("leaping", LeapEffect::new);
+    public static final DeferredHolder<MobEffect, MobEffect> DODGE = EFFECTS.register("dodging", () ->
+            new MobEffect(MobEffectCategory.BENEFICIAL, 0xAA1625) {});
     public static final DeferredHolder<MobEffect, MobEffect> COMPELLED = EFFECTS.register("compelled", () ->
             new MobEffect(MobEffectCategory.HARMFUL,0x8065A0) {}
                     .addAttributeModifier(Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath("tvdvampirism","compelled"), -1,
@@ -74,7 +78,8 @@ public final class CustomSkills {
         return ResourceKey.create(VampirismRegistries.Keys.SKILL_TREE, ResourceLocation.fromNamespaceAndPath("tvdvampirism","custom/"+speciesId(species)));
     }
     public static boolean eligible(CustomFactionPlayer<?> owner, Definition definition) {
-        return owner.getLevel()>0 && owner.getMasteryLevel()>=1 && owner.getSkillProfile()==definition.species;
+        return owner.getLevel()>0 && owner.getMasteryLevel()>=1 && owner.getSkillProfile()==definition.species
+                && (definition.kind!=Kind.DODGE || ServerConfig.DODGE_ENABLED.get());
     }
     public static boolean has(net.minecraft.world.entity.Entity entity, Definition definition) {
         if (!(entity instanceof net.minecraft.world.entity.player.Player player)) return false;
@@ -83,7 +88,7 @@ public final class CustomSkills {
     }
     public static class Skill<T extends IFactionPlayer<T>> extends DefaultSkill<T> {
         public final Definition definition;
-        Skill(Definition definition) { super(definition.kind==Kind.ROOT?0:2); this.definition=definition; }
+        Skill(Definition definition) { super(definition.kind==Kind.ROOT ? 0 : definition.kind==Kind.DODGE ? 2 : 1); this.definition=definition; }
         @Override public Optional<IPlayableFaction<?>> getFaction() { return Optional.empty(); }
         @Override public Either<ResourceKey<ISkillTree>,TagKey<ISkillTree>> allowedSkillTrees() { return Either.left(tree(definition.species)); }
         @Override public Component getDescription() { return Component.translatable(getTranslationKey()+".desc"); }

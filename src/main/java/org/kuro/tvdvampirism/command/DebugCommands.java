@@ -44,9 +44,6 @@ public final class DebugCommands {
         dispatcher.register(
                 Commands.literal("tvd")
 
-                        /*
-                         * Operator/cheats only.
-                         */
                         .requires(source ->
                                 source.hasPermission(2)
                         )

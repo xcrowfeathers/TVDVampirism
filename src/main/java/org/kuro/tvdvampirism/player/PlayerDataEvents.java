@@ -28,7 +28,7 @@ public final class PlayerDataEvents {
     @SubscribeEvent
     public static void onEquipmentChanged(LivingEquipmentChangeEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            // The event precedes modifier replacement; consume this flag in the existing post tick.
+            // This event runs before modifiers change, so handle the flag after that change.
             BloodManager.getCustomVampire(player)
                     .ifPresent(custom -> custom.requestEquipmentAttributeUpdate());
         }

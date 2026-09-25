@@ -9,10 +9,7 @@ import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import org.kuro.tvdvampirism.Tvdvampirism;
 import org.kuro.tvdvampirism.config.ServerConfig;
 
-/**
- * Changes only the dependencies' loaded balance values. Their own entity-join
- * handlers remain responsible for deciding whether to modify vanilla goals.
- */
+/** Change the loaded settings here. The other mods still decide when to update mob targets. */
 @EventBusSubscriber(modid = Tvdvampirism.MODID)
 public final class HostileTargetingConfigBridge {
     private record VampireSettings(boolean zombie, boolean creeper, boolean skeleton) {}

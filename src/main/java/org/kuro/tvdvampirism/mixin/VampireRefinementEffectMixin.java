@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-/** Routes stock event-driven Vampire refinements to the custom player's canonical state. */
 @Mixin(value = VampirePlayer.class, remap = false)
 public abstract class VampireRefinementEffectMixin {
 

@@ -133,7 +133,7 @@ public final class FeedingManager {
                 && customPlayer.reachedFeedingCap()) {
             customPlayer.stopFeeding(true);
             if (target.isAlive()) {
-                // The final bite is additional to this pulse, not swallowed by its hurt cooldown.
+                // Apply the final bite separately so the hurt cooldown does not swallow it.
                 target.invulnerableTime = 0;
                 hurtFeedingTarget(target, ServerConfig.AUGUSTINE_FEEDING_FINISH_DAMAGE.get().floatValue());
             }
@@ -347,8 +347,6 @@ public final class FeedingManager {
                 hurtFeedingTarget(target, 1000.0F);
             return Math.min(base, (int) Math.ceil(drain / multiplier));
         }
-        // Stock vampire mobs have no ExtendedCreature blood pool. Use actual
-        // health removed as the available blood, never invent a second reserve.
         int base = ServerConfig.CUSTOM_VAMPIRE_FEEDING_AMOUNT.get();
         float before = target.getHealth();
         target.setLastHurtByMob(feeder.asEntity());

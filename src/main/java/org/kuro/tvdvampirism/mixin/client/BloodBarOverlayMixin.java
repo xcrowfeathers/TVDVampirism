@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Reuses Vampirism's own blood-bar sprites and layout for custom blood. */
 @Mixin(BloodBarOverlay.class)
 public abstract class BloodBarOverlayMixin {
 

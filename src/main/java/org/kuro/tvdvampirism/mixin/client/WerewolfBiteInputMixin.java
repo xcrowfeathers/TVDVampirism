@@ -22,7 +22,7 @@ public abstract class WerewolfBiteInputMixin {
         HybridBiteInput.input(BITE);
         var player = Minecraft.getInstance().player;
         if (player != null && SpeciesRules.canUseHumanWolfBite(player)) {
-            // Consume only bite clicks; stock leap and normal Werewolf input remain untouched.
+            // Only handle bite clicks here. Leave leap and normal Werewolf input alone.
             while (BITE.consumeClick()) { }
         }
     }

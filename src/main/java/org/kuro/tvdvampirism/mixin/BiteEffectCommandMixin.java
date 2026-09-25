@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-/** Administrative clear is intentionally distinct from milk and gameplay removal. */
 @Mixin(EffectCommands.class)
 public abstract class BiteEffectCommandMixin {
     @Redirect(method = "giveEffect", at = @At(value = "INVOKE",

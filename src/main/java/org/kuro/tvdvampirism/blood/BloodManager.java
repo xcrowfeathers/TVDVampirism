@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
 
-/** Central access point for blood owned by custom vampire-derived factions. */
 public final class BloodManager {
 
     private BloodManager() {

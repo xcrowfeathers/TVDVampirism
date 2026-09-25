@@ -10,16 +10,13 @@ public final class ServerConfig {
     public static final ModConfigSpec SPEC;
     public static final ModConfigSpec.DoubleValue HOLY_WATER_RESISTANCE, HYBRID_LEAP_DAMAGE, ORIGINAL_HYBRID_LEAP_DAMAGE, LEAP_RANGE, RIP_HEART_HEALTH;
     public static final ModConfigSpec.IntValue HYBRID_LEAP_COOLDOWN, ORIGINAL_HYBRID_LEAP_COOLDOWN, LEAP_WEAKNESS_SECONDS,
-            RIP_HEART_COOLDOWN, COMPULSION_SECONDS, COMPULSION_COOLDOWN;
-    public static final ModConfigSpec.BooleanValue COMPULSION_ENABLED;
+            RIP_HEART_COOLDOWN, COMPULSION_SECONDS, COMPULSION_COOLDOWN, DODGE_DURATION_SECONDS, DODGE_COOLDOWN_SECONDS;
+    public static final ModConfigSpec.BooleanValue COMPULSION_ENABLED, DODGE_ENABLED;
     public static final ModConfigSpec.BooleanValue ELDER_DAGGER_ENABLED, CURSED_ELDER_DAGGER_ENABLED, DAGGER_BROADCAST_ENABLED;
     public static final ModConfigSpec.IntValue DAGGER_REMOVAL_DELAY_TICKS;
     public static final ModConfigSpec.ConfigValue<String> DAGGER_BROADCAST_MESSAGE;
 
 
-    // =========================================================
-    // GENERAL
-    // =========================================================
 
     public static final ModConfigSpec.BooleanValue DISABLE_BAT_FORM, DISABLE_CLEANSING_ALTAR,
             DAYLIGHT_RING_ENABLED;
@@ -36,9 +33,6 @@ public final class ServerConfig {
     public static final ModConfigSpec.IntValue CUSTOM_VAMPIRE_FEEDING_INTERVAL_TICKS;
 
 
-    // =========================================================
-    // WEREWOLF BITE
-    // =========================================================
 
     public static final ModConfigSpec.IntValue WOLF_BITE_DURATION_MINUTES;
     public static final ModConfigSpec.IntValue WOLF_BITE_MOB_DURATION_MINUTES;
@@ -67,9 +61,6 @@ public final class ServerConfig {
     public static final ModConfigSpec.IntValue WOLF_BITE_SYMPTOM_SECONDS;
 
 
-    // =========================================================
-    // SPECIES RULES
-    // =========================================================
 
     public static final ModConfigSpec.BooleanValue HYBRID_SUN_IMMUNE;
     public static final ModConfigSpec.BooleanValue ORIGINAL_SUN_IMMUNE;
@@ -79,9 +70,6 @@ public final class ServerConfig {
     public static final ModConfigSpec.BooleanValue ORIGINAL_HYBRID_WOLF_BITE_IMMUNE;
 
 
-    // =========================================================
-    // FIRE VULNERABILITY
-    // =========================================================
 
     public static final ModConfigSpec.BooleanValue AUGUSTINE_FIRE_VULNERABILITY;
     public static final ModConfigSpec.BooleanValue ORIGINAL_VAMPIRE_FIRE_VULNERABILITY;
@@ -89,9 +77,6 @@ public final class ServerConfig {
     public static final ModConfigSpec.BooleanValue ORIGINAL_HYBRID_FIRE_VULNERABILITY;
 
 
-    // =========================================================
-    // TRANSFORMATION
-    // =========================================================
 
     public static final ModConfigSpec.IntValue HYBRID_BLOOD_EFFECT_MINUTES;
     public static final ModConfigSpec.IntValue AUGUSTINE_TRANSFORMATION_SECONDS;
@@ -105,9 +90,6 @@ public final class ServerConfig {
     public static final ModConfigSpec.IntValue ORIGINAL_HYBRID_DBNO_SECONDS;
 
 
-    // =========================================================
-    // PROGRESSION
-    // =========================================================
 
     public static final ModConfigSpec.IntValue AUGUSTINE_MAX_POTENCY;
     public static final ModConfigSpec.IntValue HYBRID_MAX_POTENCY;
@@ -118,7 +100,6 @@ public final class ServerConfig {
     public static final SkillPointProfile ORIGINAL_VAMPIRE_SKILL_POINTS;
     public static final SkillPointProfile ORIGINAL_HYBRID_SKILL_POINTS;
 
-    // Compatibility aliases for code that only needs the per-level value.
     public static final ModConfigSpec.DoubleValue AUGUSTINE_SKILL_POINTS_PER_LEVEL;
     public static final ModConfigSpec.DoubleValue HYBRID_SKILL_POINTS_PER_LEVEL;
     public static final ModConfigSpec.DoubleValue ORIGINAL_VAMPIRE_SKILL_POINTS_PER_LEVEL;
@@ -127,9 +108,6 @@ public final class ServerConfig {
     public static final ModConfigSpec.BooleanValue CUSTOM_SPECIES_CAN_GAIN_LORD_LEVELS;
 
 
-    // =========================================================
-    // AUGUSTINE
-    // =========================================================
 
     public static final ModConfigSpec.DoubleValue AUGUSTINE_HUMAN_BLOOD_MULTIPLIER;
     public static final ModConfigSpec.IntValue AUGUSTINE_VAMPIRE_BOTTLE_GAIN;
@@ -142,15 +120,9 @@ public final class ServerConfig {
     public static final ModConfigSpec.DoubleValue AUGUSTINE_FEED_AMOUNT_MULTIPLIER;
 
 
-    // =========================================================
-    // LOOT
-    // =========================================================
-
-    public static final ModConfigSpec.DoubleValue AUGUSTINE_SERUM_LOOT_CHANCE;
 
     public static final ModConfigSpec.BooleanValue WHITE_OAK_STAKE_LOOT_ENABLED;
     public static final ModConfigSpec.BooleanValue ELDER_DAGGER_LOOT_ENABLED;
-    public static final ModConfigSpec.BooleanValue CURSED_ELDER_DAGGER_LOOT_ENABLED;
     public static final ModConfigSpec.BooleanValue VAMPIRISM_CURE_LOOT_ENABLED;
     public static final ModConfigSpec.BooleanValue AUGUSTINE_SYRINGE_LOOT_ENABLED;
     public static final ModConfigSpec.BooleanValue ORIGINAL_HYBRID_BLOOD_LOOT_ENABLED;
@@ -159,7 +131,6 @@ public final class ServerConfig {
 
     public static final ModConfigSpec.DoubleValue WHITE_OAK_STAKE_LOOT_CHANCE;
     public static final ModConfigSpec.DoubleValue ELDER_DAGGER_LOOT_CHANCE;
-    public static final ModConfigSpec.DoubleValue CURSED_ELDER_DAGGER_LOOT_CHANCE;
     public static final ModConfigSpec.DoubleValue VAMPIRISM_CURE_LOOT_CHANCE;
     public static final ModConfigSpec.DoubleValue AUGUSTINE_SYRINGE_LOOT_CHANCE;
     public static final ModConfigSpec.DoubleValue ORIGINAL_HYBRID_BLOOD_LOOT_CHANCE;
@@ -184,6 +155,9 @@ public final class ServerConfig {
         COMPULSION_ENABLED = builder.define("compulsion_enabled", true);
         COMPULSION_SECONDS = builder.defineInRange("compulsion_duration_seconds", 25, 1, 300);
         COMPULSION_COOLDOWN = builder.defineInRange("compulsion_cooldown_seconds", 60, 1, 3600);
+        DODGE_ENABLED = builder.define("dodge_enabled", true);
+        DODGE_DURATION_SECONDS = builder.defineInRange("dodge_duration_seconds", 30, 1, 3600);
+        DODGE_COOLDOWN_SECONDS = builder.defineInRange("dodge_cooldown_seconds", 60, 1, 3600);
         builder.pop();
         builder.push("elder_daggers");
         ELDER_DAGGER_ENABLED = builder.define("elder_dagger_enabled", true);
@@ -210,9 +184,6 @@ public final class ServerConfig {
         builder.pop();
 
 
-        // =====================================================
-        // GENERAL
-        // =====================================================
 
         builder.push("general");
 
@@ -282,9 +253,6 @@ public final class ServerConfig {
         builder.pop();
 
 
-        // =====================================================
-        // WEREWOLF BITE
-        // =====================================================
 
         builder.push("werewolf_bite");
         WOLF_BITE_STAGE_ONE_INTERVAL = builder.defineInRange("stage_one_pulse_seconds", 120, 10, 600);
@@ -345,15 +313,7 @@ public final class ServerConfig {
                 );
 
 
-        /*
-         * These values are percentages of the total infection duration.
-         *
-         * Example:
-         * 0.50 = halfway through the infection.
-         *
-         * For example, changing the total duration from 30 to 20 minutes
-         * automatically keeps the progression scaled. Magic!
-         */
+        // Bite stages use fractions of the total infection time.
 
         WOLF_BITE_NAUSEA_START = builder
                 .comment("Progress at which nausea can begin. 0.0 - 1.0.")
@@ -399,9 +359,6 @@ public final class ServerConfig {
         builder.pop();
 
 
-        // =====================================================
-        // SPECIES RULES
-        // =====================================================
 
         builder.push("species_rules");
 
@@ -442,9 +399,6 @@ public final class ServerConfig {
         builder.pop();
 
 
-        // =====================================================
-        // FIRE VULNERABILITY
-        // =====================================================
 
         builder.push("fire_vulnerability");
 
@@ -463,9 +417,6 @@ public final class ServerConfig {
         builder.pop();
 
 
-        // =====================================================
-        // TRANSFORMATION
-        // =====================================================
 
         builder.push("transformation");
         AUGUSTINE_TRANSFORMATION_SECONDS = builder.defineInRange(
@@ -521,9 +472,6 @@ public final class ServerConfig {
         builder.pop();
 
 
-        // =====================================================
-        // PROGRESSION
-        // =====================================================
 
         builder.push("progression");
 
@@ -606,9 +554,6 @@ public final class ServerConfig {
         builder.pop();
 
 
-        // =====================================================
-        // AUGUSTINE
-        // =====================================================
 
         builder.push("augustine");
 
@@ -669,63 +614,43 @@ public final class ServerConfig {
         builder.pop();
 
 
-        // =====================================================
-        // LOOT
-        // =====================================================
 
         builder.push("loot");
 
-        AUGUSTINE_SERUM_LOOT_CHANCE = builder
-                .comment(
-                        "Chance for Augustine Serum in eligible Hunter loot.",
-                        "0.0075 = 0.75%."
-                )
-                .defineInRange(
-                        "augustine_serum_chance",
-                        0.0075D,
-                        0D,
-                        1D
-                );
-
         WHITE_OAK_STAKE_LOOT_ENABLED = builder.define("whiteOakStakeLootEnabled", true);
         WHITE_OAK_STAKE_LOOT_CHANCE = builder
-                .comment("Chance per Woodland Mansion loot generation. 0.007 = 0.7%.")
-                .defineInRange("whiteOakStakeLootChance", 0.007D, 0D, 1D);
+                .comment("Chance per Woodland Mansion loot generation. 0.03 = 3%.")
+                .defineInRange("whiteOakStakeLootChance", 0.03D, 0D, 1D);
 
         ELDER_DAGGER_LOOT_ENABLED = builder.define("elderDaggerLootEnabled", true);
         ELDER_DAGGER_LOOT_CHANCE = builder
-                .comment("Chance per Buried Treasure loot generation. 0.006 = 0.6%.")
-                .defineInRange("elderDaggerLootChance", 0.006D, 0D, 1D);
-
-        CURSED_ELDER_DAGGER_LOOT_ENABLED = builder.define("cursedElderDaggerLootEnabled", true);
-        CURSED_ELDER_DAGGER_LOOT_CHANCE = builder
-                .comment("Chance per Ancient City loot generation. 0.006 = 0.6%.")
-                .defineInRange("cursedElderDaggerLootChance", 0.006D, 0D, 1D);
+                .comment("Chance per Buried Treasure loot generation. 0.04 = 4%.")
+                .defineInRange("elderDaggerLootChance", 0.04D, 0D, 1D);
 
         VAMPIRISM_CURE_LOOT_ENABLED = builder.define("vampirismCureLootEnabled", true);
         VAMPIRISM_CURE_LOOT_CHANCE = builder
-                .comment("Chance per Ominous Vault reward generation. 0.02 = 2%.")
-                .defineInRange("vampirismCureLootChance", 0.02D, 0D, 1D);
+                .comment("Chance per Ominous Vault reward generation. 0.10 = 10%.")
+                .defineInRange("vampirismCureLootChance", 0.10D, 0D, 1D);
 
         AUGUSTINE_SYRINGE_LOOT_ENABLED = builder.define("augustineSyringeLootEnabled", true);
         AUGUSTINE_SYRINGE_LOOT_CHANCE = builder
-                .comment("Chance per Vampirism Hunter Outpost tent-chest loot generation. 0.05 = 5%.")
-                .defineInRange("augustineSyringeLootChance", 0.05D, 0D, 1D);
+                .comment("Chance per Vampirism Hunter Outpost tent-chest loot generation. 0.08 = 8%.")
+                .defineInRange("augustineSyringeLootChance", 0.12D, 0D, 1D);
 
         ORIGINAL_HYBRID_BLOOD_LOOT_ENABLED = builder.define("originalHybridBloodLootEnabled", false);
         ORIGINAL_HYBRID_BLOOD_LOOT_CHANCE = builder
-                .comment("Chance per Woodland Mansion loot generation. Disabled by default. 0.02 = 2%.")
-                .defineInRange("originalHybridBloodLootChance", 0.02D, 0D, 1D);
+                .comment("Chance per Woodland Mansion loot generation. Disabled by default. 0.05 = 5% when enabled.")
+                .defineInRange("originalHybridBloodLootChance", 0.05D, 0D, 1D);
 
         IMMORTALITY_SERUM_LOOT_ENABLED = builder.define("immortalitySerumLootEnabled", true);
         IMMORTALITY_SERUM_LOOT_CHANCE = builder
-                .comment("Chance per Buried Treasure loot generation. 0.004 = 0.4%.")
-                .defineInRange("immortalitySerumLootChance", 0.004D, 0D, 1D);
+                .comment("Chance per Buried Treasure loot generation. 0.03 = 3%.")
+                .defineInRange("immortalitySerumLootChance", 0.03D, 0D, 1D);
 
         DAYLIGHT_RING_LOOT_ENABLED = builder.define("daylightRingLootEnabled", true);
         DAYLIGHT_RING_LOOT_CHANCE = builder
-                .comment("Chance per Woodland Mansion loot generation. 0.02 = 2%.")
-                .defineInRange("daylightRingLootChance", 0.02D, 0D, 1D);
+                .comment("Chance per Woodland Mansion loot generation. 0.03 = 3%.")
+                .defineInRange("daylightRingLootChance", 0.03D, 0D, 1D);
 
         builder.pop();
 
@@ -734,13 +659,6 @@ public final class ServerConfig {
     }
 
 
-    /**
-     * Config-backed skill-point progression for one custom species.
-     *
-     * <p>The cumulative pool follows the Step-1 rule:
-     * {@code startingSkillPoints + (level - 1) * skillPointsPerLevel}.
-     * Fractional cumulative results are floored so the exposed pool is always an integer.</p>
-     */
     public static final class SkillPointProfile {
         public final ModConfigSpec.IntValue startingSkillPoints;
         public final ModConfigSpec.DoubleValue skillPointsPerLevel;
@@ -796,7 +714,6 @@ public final class ServerConfig {
     }
 
 
-    /** Shared definition, instantiated in four independent TOML sections. */
     public static final class AttributeProfile {
         public final ModConfigSpec.DoubleValue healthMaxMod;
         public final ModConfigSpec.DoubleValue speedMaxMod;

@@ -58,8 +58,8 @@ public final class SunDamageManager {
             return;
         }
 
-        // Stock Vampirism suspends sunlight processing while DBNO. Without this
-        // guard custom species can be re-ignited even though DBNO rejects fire damage.
+        // Stock Vampirism pauses sunlight damage during DBNO; custom species must also avoid being
+        // set on fire.
         if (org.kuro.tvdvampirism.compat.SpeciesCompatibility.rawVampire(player).isDBNO()) {
             STATES.remove(player);
             if (!player.level().isClientSide && player.isOnFire()) {
@@ -129,7 +129,6 @@ public final class SunDamageManager {
         }
     }
 
-    /** Clears only fire that this sunlight handler previously applied. */
     public static void suppressSunlight(Player player) {
         STATES.remove(player);
         if (!player.level().isClientSide

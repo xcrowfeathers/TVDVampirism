@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-/** Lets the existing Werewolf lifecycle consume hybrid level and skill state. */
 @Mixin(value = WerewolfPlayer.class, remap = false)
 public abstract class WerewolfPlayerRuntimeMixin {
     @Redirect(method = "onUpdate", at = @At(value = "INVOKE",
@@ -32,7 +31,7 @@ public abstract class WerewolfPlayerRuntimeMixin {
     private boolean tvd$canonicalSkills(SkillHandler handler, ISkill skill) {
         var self = (WerewolfPlayer) (Object) this;
         var custom = SpeciesCompatibility.customPlayer(self.asEntity());
-        // Gameplay reads shared skills; only the custom attachment may consume their dirty flag and sync them.
+        // Only the custom attachment should clear the skill dirty flag and send updates.
         return custom != null && custom.hasWerewolfSkillBridge()
                 ? custom.getSkillHandler().isSkillEnabled(skill) : handler.isSkillEnabled(skill);
     }

@@ -10,7 +10,6 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import org.kuro.tvdvampirism.Tvdvampirism;
 import org.kuro.tvdvampirism.compat.SpeciesCompatibility;
 
-/** Bridges Vampirism's stock DBNO damage immunity to the two mortal custom vampire species. */
 @EventBusSubscriber(modid = Tvdvampirism.MODID)
 public final class CustomDbnoProtection {
     private CustomDbnoProtection() {}

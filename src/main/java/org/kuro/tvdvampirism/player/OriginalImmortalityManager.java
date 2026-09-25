@@ -50,7 +50,7 @@ public final class OriginalImmortalityManager {
             event.setCanceled(true);
             enter(player, event.getSource());
         } else if (isDown(player)) {
-            // An authorized permanent kill must also stop recovery.
+            // A permanent kill must stop the recovery timer too.
             SpeciesManager.getData(player).setOriginalDbnoTicks(-1);
             setStockTimer(player, -1);
             player.setForcedPose(null);
@@ -120,17 +120,6 @@ public final class OriginalImmortalityManager {
         }
     }
 
-    //public static void tryWake(ServerPlayer player) {
-    //    if (!isDown(player) || SpeciesManager.getData(player).getOriginalDbnoTicks() != 0) return;
-    //    rescueFromVoid(player);
-    //    SpeciesManager.getData(player).setOriginalDbnoTicks(-1);
-    //    player.setForcedPose(null);
-    //    player.setHealth(Math.max(0.5F, player.getMaxHealth()));
-    //    player.clearFire();
-    //    player.fallDistance = 0;
-    //    publish(player);
-    //    player.refreshDimensions();
-    //}
 
     public static void tryWake(ServerPlayer player) {
         if (!isDown(player)
@@ -145,10 +134,8 @@ public final class OriginalImmortalityManager {
 
         player.setForcedPose(null);
 
-        // goofy ah resurrection with 20 HP.
         player.setHealth(Math.min(20.0F, player.getMaxHealth()));
 
-        // no blood reserves ):
         var custom = SpeciesCompatibility.customPlayer(player);
         if (custom != null) {
             int blood = custom.getBloodData().getBloodLevel();
@@ -175,7 +162,7 @@ public final class OriginalImmortalityManager {
         setStockTimer(player, ticks);
         CompoundTag update = new CompoundTag();
         update.putInt("dbno", ticks);
-        // Use the existing attachment's packet route and DBNO screen/pose state.
+        // Send this through the stock attachment so its DBNO screen and pose stay in sync.
         HelperLib.sync(SpeciesCompatibility.rawVampire(player), update, player, true);
     }
 
@@ -196,7 +183,7 @@ public final class OriginalImmortalityManager {
             }
         }
         if (safe == null) {
-            // Empty/void spawn worlds also need a stable recovery point.
+            // A void spawn still needs solid ground for recovery.
             safe = new BlockPos(spawn.getX(), destination.getMinBuildHeight() + 64, spawn.getZ());
             while (!destination.getBlockState(safe).isAir() || !destination.getBlockState(safe.above()).isAir())
                 safe = safe.above();

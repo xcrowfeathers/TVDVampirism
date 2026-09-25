@@ -12,12 +12,7 @@ public final class SpeciesTransitionManager {
     }
 
 
-    /**
-     * Development/debug helper.
-     *
-     * Umgeht absichtlich spätere Gameplay-Voraussetzungen wie
-     * Serum, Hybrid Blood oder Curse Potion.
-     */
+    /** For testing only: this skips the serum, blood and curse requirements. */
     public static boolean forceSpecies(
             ServerPlayer player,
             Species species
